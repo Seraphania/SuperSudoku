@@ -1,28 +1,59 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SuperSudoku.Models
+﻿namespace SuperSudoku.Models
 {
 	internal class Board
 	{
-		public Cell[,] Cells { get; set; } = new Cell[9, 9];
+		public static int boardSize = 9;
+
+		public Cell[,] Cells { get; set; } = new Cell[boardSize, boardSize];
 
 		public Board(int[] jsonValues)
 		{
-			for (int i = 0; i < 81; i++)
+			for (int i = 0; i < boardSize*boardSize; i++)
 			{
-				int row = i / 9;
-				int col = i % 9;
+				int row = i / boardSize;
+				int col = i % boardSize;
 				Cells[row, col] = new Cell
 				{
 					Row = row,
 					Column = col,
 					Value = jsonValues[i] == 0 ? (int?)null : jsonValues[i],
-					IsOriginal = jsonValues[i] != 0
+					IsOriginal = jsonValues[i] != 0 // Add a method later to update isOriginal for soulution boards
 				};
+			}
+		}
+
+		public Cell GetCell(int row, int col)
+		{
+			return Cells[row, col];
+		}
+
+		public IEnumerable<Cell> GetRow(int row)
+		{
+			for (int c = 0; c < boardSize; c++)
+			{
+				yield return Cells[row, c];
+			}
+		}
+
+		public IEnumerable<Cell> GetColumn(int column)
+		{
+			for (int r = 0; r < boardSize; r++)
+			{
+				yield return Cells[r, column];
+			}
+		}
+
+		public IEnumerable<Cell> GetBox(int boxIndex)
+		{
+			int boardRoot = (int)Math.Sqrt(boardSize);
+			int startRow = (boxIndex / boardRoot) * boardRoot;
+			int startCol = (boxIndex % boardRoot) * boardRoot;
+			for (int r = startRow; r < startRow +boardRoot; r++)
+			{
+				for (int c = startCol; c < startCol + boardRoot; c++)
+				{
+					yield return Cells[r, c];
+				}
 			}
 		}
 	}
