@@ -3,7 +3,6 @@
 	internal class Board
 	{
 		public static int boardSize = 9;
-
 		public Cell[,] Cells { get; set; } = new Cell[boardSize, boardSize];
 
 		public Board(int[] jsonValues)

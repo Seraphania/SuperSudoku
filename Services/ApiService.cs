@@ -11,17 +11,20 @@ namespace SuperSudoku.Services
 			string apiURL = "https://sudoku-api.vercel.app/api/dosuku?query=" + Uri.EscapeDataString(query);
 			var request = new HttpRequestMessage(HttpMethod.Get, apiURL);
 
-			HttpResponseMessage response = await client.SendAsync(request);
+			HttpResponseMessage response = null; // 
+			int maxRetries = 5;
 
-			while (!response.IsSuccessStatusCode)
+			for (int i = 0; i < maxRetries; i++)
 			{
-				for (int i = 0; i < 5; i++)
-				{
-					Thread.Sleep(30000);
-					response = await client.SendAsync(request);
-				}
-				throw new HttpRequestException($"After 5 attempts, the server responded with status code: {response.StatusCode}");
+				response = await client.SendAsync(request);
+				if (response.IsSuccessStatusCode)
+					break;
+				// Wait before trying again
+				await Task.Delay(30000);
 			}
+
+			if (!response.IsSuccessStatusCode)
+				throw new HttpRequestException($"After {maxRetries} attempts, the server responded with status code: {response.StatusCode}"); 
 			
 			string responseString = await response.Content.ReadAsStringAsync();
 			if (string.IsNullOrWhiteSpace(responseString))
