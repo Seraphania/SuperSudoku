@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 
-
 namespace SuperSudoku.Services
 {
 	internal static class JsonWrangler
