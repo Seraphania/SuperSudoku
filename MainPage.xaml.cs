@@ -4,23 +4,39 @@ namespace SuperSudoku
 {
     public partial class MainPage : ContentPage
     {
-        int count = 0;
-
         public MainPage()
         {
             InitializeComponent();
+
+            GameService gameManager = new GameService();
+
+            for (int i = 0; i < 9; i++)
+            {
+				GridSudokuBoard.AddRowDefinition(new RowDefinition());
+				GridSudokuBoard.AddColumnDefinition(new ColumnDefinition());
+            }
+
+            for (int row = 0; row < 9; row++)
+            {
+                for (int column = 0; column < 9; column++)
+                {
+                    var cell = new Entry
+                    {
+                        HorizontalTextAlignment = TextAlignment.Center,
+                        VerticalTextAlignment = TextAlignment.Center,
+                        MaxLength = 1
+                    };
+
+                    Grid.SetRow(cell , row);
+                    Grid.SetColumn(cell , column);
+                    GridSudokuBoard.Children.Add(cell);
+                    cell.SetBinding(Entry.TextProperty, "Value");
+                    cell.BindingContext = _gameManager.Board[row][col];
+                }
+            }
 		}
 
-        private void OnCounterClicked(object? sender, EventArgs e)
-        {
-            count++;
+        
 
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
-
-            SemanticScreenReader.Announce(CounterBtn.Text);
-        }
 	}
 }
