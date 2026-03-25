@@ -29,7 +29,7 @@ namespace SuperSudoku.Services
 		/// <returns>A task that represents the asynchronous operation.</returns>
 		public async Task LoadOrRequestPuzzleBox()
 		{
-			string path = SuperSudokuPath + "puzzles";
+			string path = Path.Combine(SuperSudokuPath, "puzzles");
 			PuzzleBox puzzleBox = JsonWrangler.Load<PuzzleBox>(path);
 			if (puzzleBox != null)
 			{
