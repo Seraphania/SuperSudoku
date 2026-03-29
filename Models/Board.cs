@@ -5,7 +5,7 @@
 		public static int boardSize = 9;
 		public Cell[,] Cells { get; set; } = new Cell[boardSize, boardSize];
 
-		public Board(int[] jsonValues)
+		public Board(int[] values)
 		{
 			for (int i = 0; i < boardSize*boardSize; i++)
 			{
@@ -15,8 +15,8 @@
 				{
 					Row = row,
 					Column = col,
-					Value = jsonValues[i] == 0 ? (int?)null : jsonValues[i],
-					IsOriginal = jsonValues[i] != 0 // Add a method later to update isOriginal for soulution boards
+					Value = values[i] == 0 ? (int?)null : values[i],
+					IsOriginal = values[i] != 0 // Add a method later to update isOriginal for soulution boards
 				};
 			}
 		}

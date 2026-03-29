@@ -4,8 +4,8 @@ namespace SuperSudoku.Services
 {
 	internal class PuzzleService
 	{
-		private PuzzleBox _PuzzleBox;
-		private readonly string SuperSudokuPath = Path.Combine(
+		PuzzleBox _PuzzleBox;
+		private readonly string _SuperSudokuPath = Path.Combine(
 			FileSystem.AppDataDirectory,
 			"SuperSudoku"
 		);
@@ -20,7 +20,8 @@ namespace SuperSudoku.Services
 				null
 			);
 
-			Directory.CreateDirectory(SuperSudokuPath);
+			Directory.CreateDirectory(_SuperSudokuPath);
+			LoadOrRequestPuzzleBox();
 		}
 
 		/// <summary>
@@ -29,7 +30,7 @@ namespace SuperSudoku.Services
 		/// <returns>A task that represents the asynchronous operation.</returns>
 		public async Task LoadOrRequestPuzzleBox()
 		{
-			string path = Path.Combine(SuperSudokuPath, "puzzles");
+			string path = Path.Combine(_SuperSudokuPath, "puzzles");
 			PuzzleBox puzzleBox = JsonWrangler.Load<PuzzleBox>(path);
 			if (puzzleBox != null)
 			{
@@ -154,7 +155,7 @@ namespace SuperSudoku.Services
 		/// </summary>
 		public void SavePuzzleBox()
 		{
-			string path = SuperSudokuPath + "puzzles";
+			string path = _SuperSudokuPath + "puzzles";
 			JsonWrangler.Save<PuzzleBox>(path, _PuzzleBox);
 		}
 

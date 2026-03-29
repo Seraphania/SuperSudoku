@@ -65,4 +65,16 @@
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Compile Update="Views\SudokuGame.xaml.cs">
+	    <DependentUpon>SudokuGame.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Views\SudokuGame.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
 </Project>
