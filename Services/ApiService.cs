@@ -4,7 +4,7 @@ namespace SuperSudoku.Services
 {
 	internal static class ApiService
 	{
-		public static async IAsyncEnumerable<(List<List<int>>, List<List<int>>, string)> GetPuzzlesAsync(int count=20)
+		public static async IAsyncEnumerable<(List<List<int>>, List<List<int>>, string)> GetApiPuzzlesAsync(int count=20)
 		{
 			HttpClient client = new HttpClient();
 			string query = $"{{newboard(limit:{count}){{grids{{value,solution,difficulty}},results,message}}}}";

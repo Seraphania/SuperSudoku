@@ -13,15 +13,8 @@ namespace SuperSudoku.Services
 
 		public PuzzleService()
 		{
-			_PuzzleBox = new PuzzleBox(
-				new List<Puzzle>(),
-				new List<Puzzle>(),
-				new List<Puzzle>(),
-				null
-			);
-
+			_PuzzleBox = new PuzzleBox();
 			Directory.CreateDirectory(_SuperSudokuPath);
-			LoadOrRequestPuzzleBox();
 		}
 
 		/// <summary>
@@ -96,7 +89,7 @@ namespace SuperSudoku.Services
 		/// response.</remarks>
 		async Task DecodeApiPuzzles()
 		{
-			await foreach (var (playerboard, solution, difficulty) in ApiService.GetPuzzlesAsync())
+			await foreach (var (playerboard, solution, difficulty) in ApiService.GetApiPuzzlesAsync())
 			{
 				int[] Flatten (List<List<int>> grid)
 				{
@@ -110,7 +103,7 @@ namespace SuperSudoku.Services
 					"hard" => Difficulty.Hard,
 				};
 
-				var puzzle = new Puzzle(
+				Puzzle puzzle = new Puzzle(
 						new Board(Flatten(playerboard)), 
 						new Board(Flatten(solution)), 
 						parsedDifficulty
@@ -142,7 +135,7 @@ namespace SuperSudoku.Services
 		async Task CheckPuzzleStore()
 		{
 			PuzzleBox puzzleBox = _PuzzleBox;
-			if (puzzleBox.EasyPuzzles.Count <=3 || 
+			while (puzzleBox.EasyPuzzles.Count <=3 || 
 				puzzleBox.MediumPuzzles.Count <=3
 				|| puzzleBox.HardPuzzles.Count <=3) 
 			{
@@ -159,20 +152,5 @@ namespace SuperSudoku.Services
 			JsonWrangler.Save<PuzzleBox>(path, _PuzzleBox);
 		}
 
-		internal class PuzzleBox
-		{
-			internal List<Puzzle> EasyPuzzles;
-			internal List<Puzzle> MediumPuzzles;
-			internal List<Puzzle> HardPuzzles;
-			internal Puzzle CurrentPuzzle;
-
-			public PuzzleBox(List<Puzzle> easyPuzzles, List<Puzzle> mediumPuzzles, List<Puzzle> hardPuzzles, Puzzle currentPuzzle)
-			{
-				this.EasyPuzzles = easyPuzzles;
-				this.MediumPuzzles = mediumPuzzles;
-				this.HardPuzzles = hardPuzzles;
-				this.CurrentPuzzle = currentPuzzle;
-			}
-		}
 	}
 }

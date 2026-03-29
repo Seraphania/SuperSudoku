@@ -1,7 +1,5 @@
-﻿using SuperSudoku.Services;
-using SuperSudoku.Models;
-using System.Security.Cryptography.X509Certificates;
-using static SuperSudoku.Services.PuzzleService;
+﻿using SuperSudoku.Models;
+using SuperSudoku.Services;
 
 namespace SuperSudoku
 {
@@ -12,7 +10,6 @@ namespace SuperSudoku
             
 
             InitializeComponent();
-
 
             PuzzleService _puzzleService = new PuzzleService();
             PuzzleBox puzzleBox = await Task _puzzleService.LoadOrRequestPuzzleBox();

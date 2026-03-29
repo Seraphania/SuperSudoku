@@ -12,8 +12,8 @@ namespace SuperSudoku.Services
 		
 		public SettingsService() 
 		{
-			Directory.CreateDirectory(SuperSudokuPath);
-			
+			_settings = new Settings();
+			Directory.CreateDirectory(SuperSudokuPath);		
 		}
 
 		public Settings GetSettings()

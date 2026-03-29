@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SuperSudoku.Models
+﻿namespace SuperSudoku.Models
 {
 	internal class Settings
 	{

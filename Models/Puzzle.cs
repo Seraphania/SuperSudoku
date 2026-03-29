@@ -2,18 +2,19 @@
 {
 	internal class Puzzle
 	{
-		private Board PlayerBoard { get; set; }
-		private Board Solution { get; set; }
-		private Difficulty Difficulty { get; set; }
+		public Board PlayerBoard { get; set; }	
+		public Board Solution { get; set; }
+		public Difficulty Difficulty { get; set; }
+        public Board? CurrentBoard { get; set; }
 
-		public Puzzle(Board playerBoard, Board solution, Difficulty difficulty)
+        public Puzzle(Board playerBoard, Board solution, Difficulty difficulty, Board currentBoard = null)
 		{
 			PlayerBoard = playerBoard;
 			Solution = solution;
 			Difficulty = difficulty;
+			CurrentBoard = currentBoard;
 		}
 
-		public Puzzle(){}
 	}
 
 	internal enum Difficulty
