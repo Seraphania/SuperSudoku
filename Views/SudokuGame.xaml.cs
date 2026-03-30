@@ -20,7 +20,7 @@ public partial class SudokuGame : ContentPage
         {
             for (int column = 0; column < 9; column++)
             {
-                var cell = new Entry
+                var cell = new Entry // custom entry with ref to class cell. 
                 {
                     HorizontalTextAlignment = TextAlignment.Center,
                     VerticalTextAlignment = TextAlignment.Center,
@@ -35,5 +35,4 @@ public partial class SudokuGame : ContentPage
             }
         }
     }
-
 }
