@@ -1,8 +1,8 @@
 ﻿namespace SuperSudoku.Models
 {
-	internal class Board
+	public class Board
 	{
-		public static int boardSize = 9;
+		public static int boardSize = 9; // Placeholder, may expand in future
 		public Cell[,] Cells { get; set; } = new Cell[boardSize, boardSize];
 
 		public Board(int[] values)
@@ -16,12 +16,26 @@
 					Row = row,
 					Column = col,
 					Value = values[i] == 0 ? (int?)null : values[i],
-					IsOriginal = values[i] != 0 // Add a method later to update isOriginal for soulution boards
 				};
 			}
 		}
 
-		public Cell GetCell(int row, int col)
+        public Board Clone()
+        {
+            int[] values = new int[boardSize * boardSize];
+
+            for (int row = 0; row < boardSize; row++)
+            {
+                for (int col = 0; col < boardSize; col++)
+                {
+                    values[row * boardSize + col] = Cells[row, col].Value ?? 0;
+                }
+            }
+
+            return new Board(values);
+        }
+
+        public Cell GetCell(int row, int col)
 		{
 			return Cells[row, col];
 		}

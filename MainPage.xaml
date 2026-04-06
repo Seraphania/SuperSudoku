@@ -3,8 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SuperSudoku.MainPage">
 
-    <ScrollView>
-        <Button x:Name="ButtonPLay" Text="Play!" Clicked="ButtonPLay_Clicked" />
-    </ScrollView>
+    <VerticalStackLayout>
+        <Button x:Name="ButtonSettings" Text="Settings" Padding="5,5,5,5"  Clicked="ButtonSettings_Clicked" />
+        <Button x:Name="ButtonPlay" Text="Play!" Padding="5,5,5,5" Clicked="ButtonPlay_Clicked" />
+    </VerticalStackLayout>
 
 </ContentPage>

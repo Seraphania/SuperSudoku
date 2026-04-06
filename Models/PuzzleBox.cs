@@ -1,10 +1,10 @@
 ﻿namespace SuperSudoku.Models
 {
-    internal class PuzzleBox 
+    public class PuzzleBox 
     {
-        public List<Puzzle> EasyPuzzles { get; set; }
-        public List<Puzzle> MediumPuzzles { get; set; }
-        public List<Puzzle> HardPuzzles { get; set; }
+        public List<Puzzle> EasyPuzzles { get; set; } = new List<Puzzle>();
+        public List<Puzzle> MediumPuzzles { get; set; } = new List<Puzzle>();
+        public List<Puzzle> HardPuzzles { get; set; } = new List<Puzzle>();
         public Puzzle CurrentPuzzle { get; set; }
 
         public PuzzleBox() { }
@@ -15,9 +15,9 @@
             List<Puzzle> hardPuzzles,
             Puzzle currentPuzzle)
         {
-            this.EasyPuzzles = easyPuzzles;
-            this.MediumPuzzles = mediaumPuzzles;
-            this.HardPuzzles = hardPuzzles;
+            this.EasyPuzzles = easyPuzzles?? new List<Puzzle>();
+            this.MediumPuzzles = mediaumPuzzles?? new List<Puzzle>();
+            this.HardPuzzles = hardPuzzles ?? new List<Puzzle>();
             this.CurrentPuzzle = currentPuzzle;
         }
     }

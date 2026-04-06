@@ -2,7 +2,7 @@
 
 namespace SuperSudoku.Services
 {
-	internal class PuzzleService
+	public class PuzzleService
 	{
 		PuzzleBox _PuzzleBox;
 		private readonly string _SuperSudokuPath = Path.Combine(
@@ -39,7 +39,12 @@ namespace SuperSudoku.Services
 			}	
 		}
 
-		public Puzzle GetActivePuzzle(Difficulty difficulty)
+        public PuzzleBox Get_PuzzleBox()
+        {
+            return _PuzzleBox;
+        }
+
+        public Puzzle GetActivePuzzle(Difficulty difficulty, PuzzleBox _PuzzleBox)
 		{
 			if (_PuzzleBox.CurrentPuzzle != null)
 			{
@@ -60,11 +65,12 @@ namespace SuperSudoku.Services
 		public void SetActivePuzzle(Difficulty difficulty)
 		{
 			List<Puzzle> sourceList = difficulty switch
-			{
-				Difficulty.Easy => _PuzzleBox.EasyPuzzles,
-				Difficulty.Medium => _PuzzleBox.MediumPuzzles,
-				Difficulty.Hard => _PuzzleBox.HardPuzzles,
-			};
+            {
+                Difficulty.Easy => _PuzzleBox.EasyPuzzles,
+                Difficulty.Medium => _PuzzleBox.MediumPuzzles,
+                Difficulty.Hard => _PuzzleBox.HardPuzzles,
+                _ => throw new NotImplementedException(),
+            };
 
 			if (sourceList.Count == 0)
 			{
@@ -97,11 +103,12 @@ namespace SuperSudoku.Services
 				}
 
 				var parsedDifficulty = difficulty.ToLower() switch
-				{
-					"easy" => Difficulty.Easy,
-					"medium" => Difficulty.Medium,
-					"hard" => Difficulty.Hard,
-				};
+                {
+                    "easy" => Difficulty.Easy,
+                    "medium" => Difficulty.Medium,
+                    "hard" => Difficulty.Hard,
+                    _ => throw new NotImplementedException(),
+                };
 
 				Puzzle puzzle = new Puzzle(
 						new Board(Flatten(playerboard)), 
@@ -148,9 +155,8 @@ namespace SuperSudoku.Services
 		/// </summary>
 		public void SavePuzzleBox()
 		{
-			string path = _SuperSudokuPath + "puzzles";
+			string path = Path.Combine(_SuperSudokuPath + "puzzles");
 			JsonWrangler.Save<PuzzleBox>(path, _PuzzleBox);
 		}
-
 	}
 }

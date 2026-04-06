@@ -1,6 +1,6 @@
 ﻿namespace SuperSudoku.Models
 {
-	internal class Settings
+	public class Settings
 	{
 		public Difficulty SelectedDifficulty { get; set; }
 	}

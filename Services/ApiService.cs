@@ -11,12 +11,13 @@ namespace SuperSudoku.Services
 			string apiURL = "https://sudoku-api.vercel.app/api/dosuku?query=" + Uri.EscapeDataString(query);
 			var request = new HttpRequestMessage(HttpMethod.Get, apiURL);
 
-			HttpResponseMessage response = null; // 
+			HttpResponseMessage response = null;
 			int maxRetries = 5;
 
 			for (int i = 0; i < maxRetries; i++)
 			{
-				response = await client.SendAsync(request);
+                request = new HttpRequestMessage(HttpMethod.Get, apiURL);
+                response = await client.SendAsync(request);
 				if (response.IsSuccessStatusCode)
 					break;
 				// Wait before trying again

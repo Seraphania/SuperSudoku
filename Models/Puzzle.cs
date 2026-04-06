@@ -1,6 +1,6 @@
 ﻿namespace SuperSudoku.Models
 {
-	internal class Puzzle
+	public class Puzzle
 	{
 		public Board PlayerBoard { get; set; }	
 		public Board Solution { get; set; }
@@ -14,10 +14,9 @@
 			Difficulty = difficulty;
 			CurrentBoard = currentBoard;
 		}
-
 	}
 
-	internal enum Difficulty
+	public enum Difficulty
 	{
 		Easy,
 		Medium,

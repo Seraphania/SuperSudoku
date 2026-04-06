@@ -2,7 +2,7 @@
 
 namespace SuperSudoku.Services
 {
-	internal class SettingsService
+	public class SettingsService
 	{
 		private Settings? _settings;
 		private readonly string SuperSudokuPath = Path.Combine(
