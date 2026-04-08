@@ -29,15 +29,13 @@ public partial class GameView : ContentPage
                     HorizontalTextAlignment = TextAlignment.Center,
                     VerticalTextAlignment = TextAlignment.Center,
                     MaxLength = 1,
-                    BindingContext = gameService.CurrentBoard.Cells[row, column],                   
-                };
+                    BindingContext = gameService.CurrentBoard.Cells[row, column],
+				};
 
                 Grid.SetRow(cell, row);
                 Grid.SetColumn(cell, column);
                 GridSudokuBoard.Children.Add(cell);
-                //cell.BindingContext = gameService.CurrentBoard.Cells[row, column];
-                //cell.SetBinding(ContentProperty, new Binding()
-                //cell.SetBinding(Entry.TextProperty, new Binding("Value", BindingMode.OneWay, converter: new IntToStringConverter()));              
+                cell.SetBinding(Entry.TextProperty, new Binding("Value", BindingMode.TwoWay));              
             }
         }
     }

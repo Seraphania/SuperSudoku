@@ -4,8 +4,8 @@
              x:Class="SuperSudoku.MainPage">
 
     <VerticalStackLayout>
-        <Button x:Name="ButtonSettings" Text="Settings" Padding="5,5,5,5"  Clicked="ButtonSettings_Clicked" />
-        <Button x:Name="ButtonPlay" Text="Play!" Padding="5,5,5,5" Clicked="ButtonPlay_Clicked" />
+        <Button x:Name="ButtonSettings" Text="Settings" Margin="5,5,5,5" MaximumWidthRequest="150" Clicked="ButtonSettings_Clicked" />
+        <Button x:Name="ButtonPlay" Text="Play!" Margin="5,5,5,5" MaximumWidthRequest="150" Clicked="ButtonPlay_Clicked" />
     </VerticalStackLayout>
 
 </ContentPage>
