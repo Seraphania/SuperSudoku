@@ -16,9 +16,17 @@ public partial class GameView : ContentPage
 
         for (int i = 0; i < 9; i++)
         {
-            GridSudokuBoard.AddRowDefinition(new RowDefinition());
-            GridSudokuBoard.AddColumnDefinition(new ColumnDefinition());
+            GridSudokuBoard.AddRowDefinition(new RowDefinition { Height = new GridLength(1, GridUnitType.Star)});
+            GridSudokuBoard.AddColumnDefinition(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
         }
+
+        GridSudokuBoard.SizeChanged += (s, e) =>
+        {
+            var size = Math.Min(GridSudokuBoard.Width, GridSudokuBoard.Height);
+            GridSudokuBoard.WidthRequest = size;
+            GridSudokuBoard.HeightRequest = size;
+        };
+
 
         for (int row = 0; row < 9; row++)
         {
@@ -32,17 +40,27 @@ public partial class GameView : ContentPage
                     BindingContext = gameService.CurrentBoard.Cells[row, column],
 				};
 
-                Grid.SetRow(cell, row);
-                Grid.SetColumn(cell, column);
-                GridSudokuBoard.Children.Add(cell);
-                cell.SetBinding(Entry.TextProperty, new Binding("Value", BindingMode.TwoWay));              
+                var border = new Border
+                {
+                    
+                    Padding = 0,
+                    Margin = 0,
+                    Content = cell,
+                    Stroke = Colors.Black,
+                    StrokeThickness = 1
+                };
+
+                Grid.SetRow(border, row);
+                Grid.SetColumn(border, column);
+                GridSudokuBoard.Children.Add(border);
+                cell.SetBinding(Entry.TextProperty, new Binding("DisplayValue", BindingMode.TwoWay));              
             }
         }
     }
 
     private async void SwipeGestureRecognizer_SwipedRight(object sender, SwipedEventArgs e)
     {
-        // await GameController.SaveCurrentGameAsync(); - not yet implemented
+        // await GameService.SaveCurrentGameAsync(); - not yet implemented
         await Navigation.PopAsync();
     }
 }

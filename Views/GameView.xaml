@@ -10,7 +10,11 @@
             <SwipeGestureRecognizer Direction="Right" 
                                     Swiped="SwipeGestureRecognizer_SwipedRight" />
         </VerticalStackLayout.GestureRecognizers>
-
-        <Grid x:Name="GridSudokuBoard" />
+        
+        <Border Padding="0,0,0,0" Margin="0,0,0,0" Stroke="Black" StrokeThickness="3">
+            <Grid x:Name="GridSudokuBoard" Margin="0" Padding="0" />
+        </Border>
+        
+        
     </VerticalStackLayout>
 </ContentPage>
