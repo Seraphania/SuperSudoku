@@ -31,7 +31,6 @@
                     values[row * boardSize + col] = Cells[row, col].Value ?? 0;
                 }
             }
-
             return new Board(values);
         }
 
