@@ -5,14 +5,8 @@
              Title="SettingsView">
     <VerticalStackLayout>
         <Label Text="Select Difficulty" FontSize="18" />
-        <Picker x:Name="PickerDifficulty"
+		<Picker x:Name="PickerDifficulty"
                 Title="Difficulty"
-                SelectedIndexChanged="PickerDifficulty_SelectedIndexChanged">
-            <Picker.Items>
-                <x:String>Easy</x:String>
-                <x:String>Medium</x:String>
-                <x:String>Hard</x:String>
-            </Picker.Items>
-        </Picker>
-    </VerticalStackLayout>
+                SelectedIndexChanged="PickerDifficulty_SelectedIndexChanged" />
+	</VerticalStackLayout>
 </ContentPage>

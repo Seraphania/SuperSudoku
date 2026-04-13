@@ -21,7 +21,7 @@ namespace SuperSudoku.Services
             _settingsService = settingsService;
             _puzzleService = puzzleService;
             var settings = _settingsService.GetSettings();
-            var puzzle = puzzleService.GetActivePuzzle(settings.SelectedDifficulty, puzzleService.Get_PuzzleBox());
+            var puzzle = puzzleService.GetActivePuzzle(settings.SelectedDifficulty, puzzleService.GetPuzzleBox());
 
             _solutionBoard = puzzle.Solution;
             _playerBoard = puzzle.PlayerBoard;

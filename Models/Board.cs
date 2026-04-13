@@ -5,9 +5,15 @@
 		public static int boardSize = 9; // Placeholder, may expand in future
 		public Cell[,] Cells { get; set; } = new Cell[boardSize, boardSize];
 
+		public Board()
+		{
+			Cells = new Cell[boardSize, boardSize];
+		}
+
 		public Board(int[] values)
 		{
-			for (int i = 0; i < boardSize*boardSize; i++)
+			if (values == null) throw new ArgumentNullException(nameof(values));
+			for (int i = 0; i < boardSize * boardSize; i++)
 			{
 				int row = i / boardSize;
 				int col = i % boardSize;

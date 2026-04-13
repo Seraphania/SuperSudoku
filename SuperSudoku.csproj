@@ -24,7 +24,7 @@
 		<ApplicationTitle>SuperSudoku</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.supersudoku</ApplicationId>
+		<ApplicationId>SuperSudoku</ApplicationId>
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>

@@ -11,11 +11,13 @@ namespace SuperSudoku.Services
 			"Puzzles"
 		);
 
-
 		public PuzzleService()
 		{
 			_PuzzleBox = new PuzzleBox();
-			Directory.CreateDirectory(_PuzzlePath);
+			Directory.CreateDirectory(Path.Combine(
+			FileSystem.AppDataDirectory,
+			"SuperSudoku"
+			));
 		}
 
 		/// <summary>
@@ -39,7 +41,7 @@ namespace SuperSudoku.Services
 			}	
 		}
 
-        public PuzzleBox Get_PuzzleBox()
+        public PuzzleBox GetPuzzleBox()
         {
             return _PuzzleBox;
         }

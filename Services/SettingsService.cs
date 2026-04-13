@@ -9,19 +9,23 @@ namespace SuperSudoku.Services
 	public class SettingsService
 	{
 		private Settings _settings;
+		// Saves to: C:\Users\<User>\AppData\Local\User Name\com.companyname.supersudoku\Data
 		private readonly string _SettingsPath = Path.Combine(
 			FileSystem.AppDataDirectory,
 			"SuperSudoku",
 			"Settings"
 		);
-		
+
 		/// <summary>
 		/// Initializes a new instance of the SettingsService class and ensures the settings directory exists.
 		/// </summary>
 		public SettingsService() 
 		{
 			_settings = new Settings();
-			Directory.CreateDirectory(_SettingsPath);
+			Directory.CreateDirectory(Path.Combine(
+			FileSystem.AppDataDirectory,
+			"SuperSudoku"
+			));
 			GetSettings();
 		}
 

@@ -21,7 +21,7 @@ namespace SuperSudoku.Services
 				if (response.IsSuccessStatusCode)
 					break;
 				// Wait before trying again
-				await Task.Delay(30000);
+				await Task.Delay(10000);
 			}
 
 			if (!response.IsSuccessStatusCode)
