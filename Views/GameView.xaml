@@ -2,15 +2,54 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"           
              x:Class="SuperSudoku.Views.GameView"
-             Title="GameView" >
+             Title="GameView">
 
-	<VerticalStackLayout>
+	<VerticalStackLayout  >
 		<VerticalStackLayout.GestureRecognizers>
 			<SwipeGestureRecognizer Direction="Right" 
-             Swiped="SwipeGestureRecognizer_SwipedRight" />
+				Swiped="SwipeGestureRecognizer_SwipedRight" />
 		</VerticalStackLayout.GestureRecognizers>
-		
-		<Grid x:Name="GridSudokuBoard" Margin="0" Padding="0" />
+
+		<Label x:Name="Label_ElapsedTime" Text="Elapsed Time ..." HorizontalOptions="Center" FontSize="Small" FontAttributes="Italic"/> <!-- Add Timer -->
+
+		<!--  <Label x:Name="LabelDifficultySetting" Text="{Binding SelectedDifficulty}"/> TODO: Work Out Binding -->
+
+		<Grid x:Name="GridBoard"
+			  ColumnDefinitions="*,*,*,*,*,*,*,*,*"
+			  RowDefinitions="*,*,*,*,*,*,*,*,*"
+			  HorizontalOptions="Center"
+			  VerticalOptions="Center"
+			  WidthRequest="360"
+			  HeightRequest="360"
+			  >
+
+			<!-- Sudoku cells -->
+			<Grid x:Name="GridSudoku"
+				  Grid.ColumnSpan="9"
+				  Grid.RowSpan="9"
+				  RowSpacing="0"
+				  ColumnSpacing="0"
+				  ZIndex="2" />
+
+			<Border Grid.ColumnSpan="9" 
+					Grid.RowSpan="9" 
+					Stroke="BlanchedAlmond" 
+					StrokeThickness="3"s
+					ZIndex="1"/>
+			
+			<Border Grid.Column="3" 
+					Grid.ColumnSpan="3" 
+					Grid.RowSpan="9" 
+					Stroke="MintCream" 
+					StrokeThickness="1"
+					ZIndex="0"/>
+
+			<Border Grid.Row="3" 
+					Grid.RowSpan="3" 
+					Grid.ColumnSpan="9" 
+					Stroke="MintCream" 
+					StrokeThickness="1"
+					ZIndex="0"/>
+		</Grid>
 	</VerticalStackLayout>
-	
 </ContentPage>
