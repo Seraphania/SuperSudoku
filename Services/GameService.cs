@@ -48,30 +48,33 @@ namespace SuperSudoku.Services
             throw new NotImplementedException();
         }
 
-        //public bool IsPuzzleComplete() 
-        //{
-        //          if (_currentBoard == _solutionBoard)
-        //          {
-        //              return true;
-        //          }
-        //	for (int i = 0; i < 9; i++)
-        //	{
-        //		if (_currentBoard.GetRow(i).Any(0)) // syntax?
-        //		{
-        //			return false;
-        //		}
-        //	}
-        //	for (int i = 0; i < 9; i++)
-        //	{
-        //		for (int j = 0; j < 9; j++)
-        //              {
-        //                  if (!IsMoveValid(i, j, _currentBoard.GetCell(i, j).Value))
-        //                  {
-        //                      return false;
-        //                  }
-        //              }
-        //          }
-        //	return true;
-        //}
-    }
+        public void SaveCurrentGame();
+
+
+		//public bool IsPuzzleComplete() 
+		//{
+		//          if (_currentBoard == _solutionBoard)
+		//          {
+		//              return true;
+		//          }
+		//	for (int i = 0; i < 9; i++)
+		//	{
+		//		if (_currentBoard.GetRow(i).Any(0)) // syntax?
+		//		{
+		//			return false;
+		//		}
+		//	}
+		//	for (int i = 0; i < 9; i++)
+		//	{
+		//		for (int j = 0; j < 9; j++)
+		//              {
+		//                  if (!IsMoveValid(i, j, _currentBoard.GetCell(i, j).Value))
+		//                  {
+		//                      return false;
+		//                  }
+		//              }
+		//          }
+		//	return true;
+		//}
+	}
 }
