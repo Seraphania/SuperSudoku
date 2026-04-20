@@ -34,7 +34,7 @@
 			<Border Grid.ColumnSpan="9" 
 					Grid.RowSpan="9" 
 					Stroke="BlanchedAlmond" 
-					StrokeThickness="3"s
+					StrokeThickness="3"
 					ZIndex="1"/>
 			
 			<Border Grid.Column="3" 

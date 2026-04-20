@@ -27,6 +27,7 @@ namespace SuperSudoku.Services
 		public async Task LoadOrRequestPuzzleBox()
 		{
 			PuzzleBox puzzleBox = JsonWrangler.Load<PuzzleBox>(_PuzzlePath);
+			_PuzzleBox = puzzleBox;
 			if (puzzleBox != null)
 			{
 				_PuzzleBox = puzzleBox;
@@ -121,17 +122,17 @@ namespace SuperSudoku.Services
 				switch (parsedDifficulty)
 				{
 					case Difficulty.Easy:
-						if (_PuzzleBox.EasyPuzzles.Count <= 50) // Avoid storing too many puzzles.
+						if (_PuzzleBox.EasyPuzzles.Count < 50) // Avoid storing too many puzzles.
 							_PuzzleBox.EasyPuzzles.Add(puzzle);
 						break;
 
 					case Difficulty.Medium:
-						if (_PuzzleBox.MediumPuzzles.Count <= 50)
+						if (_PuzzleBox.MediumPuzzles.Count < 50)
 							_PuzzleBox.MediumPuzzles.Add(puzzle);
 						break;
 
 					case Difficulty.Hard:
-						if (_PuzzleBox.HardPuzzles.Count <= 50)
+						if (_PuzzleBox.HardPuzzles.Count < 50)
 							_PuzzleBox.HardPuzzles.Add(puzzle);
 						break;
 				}

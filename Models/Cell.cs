@@ -2,7 +2,7 @@
 {
 	public class Cell
 	{	
-		public bool IsOriginal { get; set; }
+		public bool IsGiven { get; set; }
 		public List<int> Notes { get; set; } = new List<int>(); // For use in later feature
 
 		public int? Value;

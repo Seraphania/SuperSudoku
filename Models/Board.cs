@@ -22,22 +22,30 @@
 					Row = row,
 					Column = col,
 					Value = values[i] == 0 ? (int?)null : values[i],
+					IsGiven = values[i] != 0
 				};
 			}
 		}
 
         public Board Clone()
         {
-            int[] values = new int[boardSize * boardSize];
-
+            var newBoard = new Board();
             for (int row = 0; row < boardSize; row++)
             {
                 for (int col = 0; col < boardSize; col++)
                 {
-                    values[row * boardSize + col] = Cells[row, col].Value ?? 0;
+                    var original = Cells[row, col];
+                    newBoard.Cells[row, col] = new Cell
+                    {
+                        Row = original.Row,
+                        Column = original.Column,
+                        Value = original.Value,
+                        IsGiven = original.IsGiven,
+                        Notes = new List<int>(original.Notes)
+                    };
                 }
             }
-            return new Board(values);
+            return newBoard;
         }
 
         public Cell GetCell(int row, int col)

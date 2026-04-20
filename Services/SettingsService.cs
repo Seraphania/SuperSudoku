@@ -8,7 +8,7 @@ namespace SuperSudoku.Services
 	/// </summary>
 	public class SettingsService
 	{
-		public Settings _settings;
+		public Settings settings;
 		// Saves to: C:\Users\<User>\AppData\Local\User Name\com.companyname.supersudoku\Data
 		private readonly string _SettingsPath = Path.Combine(
 			FileSystem.AppDataDirectory,
@@ -21,7 +21,7 @@ namespace SuperSudoku.Services
 		/// </summary>
 		public SettingsService() 
 		{
-			_settings = new Settings();
+			settings = new Settings();
 			Directory.CreateDirectory(Path.Combine(
 			FileSystem.AppDataDirectory,
 			"SuperSudoku"
@@ -36,15 +36,15 @@ namespace SuperSudoku.Services
 		/// <returns>The loaded or default application settings.</returns>
 		public Settings GetSettings()
 		{
-			_settings = JsonWrangler.Load<Settings>(_SettingsPath);
-			if (_settings != null)
+			settings = JsonWrangler.Load<Settings>(_SettingsPath);
+			if (settings != null)
 			{
-				return _settings;
+				return settings;
 			}
 			else
 			{
 				SetDefaultSettings();
-				return _settings;
+				return settings;
 			}
 		}
 
@@ -54,16 +54,16 @@ namespace SuperSudoku.Services
 		/// <param name="settings">The new settings to apply and persist.</param>
 		public void UpdateSettings(Settings settings)
 		{
-			_settings = settings;
-			JsonWrangler.Save<Settings>(_SettingsPath, _settings);
+			this.settings = settings;
+            JsonWrangler.Save<Settings>(_SettingsPath, this.settings);
 		}
 
 		private void SetDefaultSettings()
 		{
 			Settings defaultSettings = new Settings();
 			defaultSettings.SelectedDifficulty = Difficulty.Medium;
-			_settings = defaultSettings;
-			UpdateSettings(_settings);
+			settings = defaultSettings;
+			UpdateSettings(settings);
 		}
 	}
 }
