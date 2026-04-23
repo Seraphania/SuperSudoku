@@ -1,4 +1,5 @@
 ﻿using SuperSudoku.Models;
+using Cell = SuperSudoku.Models.Cell;
 
 namespace SuperSudoku.Services
 {
@@ -7,105 +8,119 @@ namespace SuperSudoku.Services
         private SettingsService _settingsService;
         private PuzzleService _puzzleService;
 
-        public Board CurrentBoard { get; private set; }
+        private Puzzle _activePuzzle;
+
+        public Board CurrentBoard => _activePuzzle.CurrentBoard;
         public Board playerBoard { get; private set; }
         private Board _solutionBoard;
 
+        /// <summary>
+        /// Initializes a new instance of the GameService class with the provided SettingsService and PuzzleService. This constructor sets up the necessary services for managing game state, including loading settings and retrieving puzzles. The GameService is responsible for handling game initialization, progress saving, and game state management throughout the application.
+        /// </summary>
+        /// <param name="settingsService">The SettingsService instance used to manage application settings.</param>
+        /// <param name="puzzleService">The PuzzleService instance used to manage Sudoku puzzles.</param>
         public GameService(SettingsService settingsService, PuzzleService puzzleService)
         {
             _settingsService = settingsService;
             _puzzleService = puzzleService;
         }
 
+        /// <summary>
+        /// Initializes the game by loading the active puzzle based on the selected difficulty from the settings. If there is an existing game in progress (indicated by a non-null CurrentBoard), it loads that game state. Otherwise, it starts a new game using the player's board as the current board. This method ensures that the game state is correctly set up for the user to continue playing or start fresh based on their preferences.
+        /// </summary>
         public void InitialiseGame()
         {
             var settings = _settingsService.GetSettings();
-            Puzzle puzzle = _puzzleService.GetActivePuzzle(
+            _activePuzzle = _puzzleService.GetActivePuzzle(
                 settings.SelectedDifficulty,
                 _puzzleService.GetPuzzleBox()
             );
 
-            if (puzzle.CurrentBoard != null)
+            if (_activePuzzle.CurrentBoard != null &&
+                _activePuzzle.Difficulty == settings.SelectedDifficulty)
             {
-                LoadExistingGame(puzzle);
+                LoadExistingGame(_activePuzzle);
             }
             else
             {
-                StartNewGame(puzzle);
+                StartNewGame(_activePuzzle);
             }
         }
 
         private void LoadExistingGame(Puzzle puzzle)
         {
+            _activePuzzle = puzzle;
             _solutionBoard = puzzle.Solution;
             playerBoard = puzzle.PlayerBoard;
-            CurrentBoard = puzzle.CurrentBoard;
+
         }
 
         private void StartNewGame(Puzzle puzzle)
         {
+            _activePuzzle = puzzle;
             _solutionBoard = puzzle.Solution;
             playerBoard = puzzle.PlayerBoard;
-            CurrentBoard = puzzle.PlayerBoard.Clone();
+
+            _activePuzzle.CurrentBoard = puzzle.PlayerBoard.Clone();
         }
 
         /// <summary>
-        /// Explicitly start a new game of the selected difficulty discarding any partially completed game
+        /// Starts a new game by retrieving a new puzzle based on the selected difficulty from the settings and setting it as the active puzzle in the PuzzleService. This method allows the user to begin a new game with a fresh puzzle, resetting any previous game state and providing a new challenge based on their chosen difficulty level.
         /// </summary>
         public void StartNewGame()
         {
             Settings settings = _settingsService.GetSettings();
             _puzzleService.SetActivePuzzle(settings.SelectedDifficulty);
-            Puzzle puzzle = _puzzleService.GetActivePuzzle(
+            _activePuzzle = _puzzleService.GetActivePuzzle(
                 settings.SelectedDifficulty,
                 _puzzleService.GetPuzzleBox()
             );
-            StartNewGame(puzzle);
+            StartNewGame(_activePuzzle);
         }
 
         /// <summary>
-        /// Restart the current puzzle
+        /// Restarts the current game by resetting the CurrentBoard to a clone of the original player board. This method allows the user to start over without changing the active puzzle, effectively discarding any progress made in the current game and providing a fresh start while keeping the same puzzle configuration. After resetting the board, it saves the current game state to ensure that the restart is persisted.
         /// </summary>
         public void RestartGame()
         {
-            CurrentBoard = playerBoard.Clone();
+            _activePuzzle.CurrentBoard = playerBoard.Clone();
+            SaveCurrentGame();
         }
 
-        // =========================
-        // Save progress
-        // =========================
+        /// <summary>
+        /// Saves the current game state by updating the active puzzle's CurrentBoard property with the current board state and then persisting the changes using the PuzzleService. This method ensures that the user's progress is saved and can be resumed later, allowing for a seamless gaming experience even if the application is closed or interrupted.
+        /// </summary>
         public void SaveCurrentGame()
         {
             _puzzleService.SavePuzzleBox();
         }
 
-        // =========================
-        // Validation (existing WIP)
-        // =========================
-        //public bool IsPuzzleComplete() 
-        //{
-        //          if (_currentBoard == _solutionBoard)
-        //          {
-        //              return true;
-        //          }
-        //	for (int i = 0; i < 9; i++)
-        //	{
-        //		if (_currentBoard.GetRow(i).Any(0)) // syntax?
-        //		{
-        //			return false;
-        //		}
-        //	}
-        //	for (int i = 0; i < 9; i++)
-        //	{
-        //		for (int j = 0; j < 9; j++)
-        //              {
-        //                  if (!IsMoveValid(i, j, _currentBoard.GetCell(i, j).Value))
-        //                  {
-        //                      return false;
-        //                  }
-        //              }
-        //          }
-        //	return true;
-        //}
+        public void HandleCellChanged(Cell cell) 
+        {
+            if (IsPuzzleComplete())
+            {
+                // Add to stats, congratulate user, set off fireworks... inform the king?
+                return;
+            }
+            // Check if the move is valid - and if it's not...?
+            // - validate move
+            // - maybe revert
+            // - maybe highlight errors
+
+        }
+
+
+        public bool IsPuzzleComplete()
+        {
+            if (CurrentBoard == _solutionBoard)
+            {
+                return true;
+            }
+            else
+            {
+                // Check if all cells are filled in - if they are, Check if the board is solved (not sure if solutions are unique from this API).
+                return false;
+            }
+        }
     }
 }

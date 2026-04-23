@@ -1,6 +1,6 @@
-using Microsoft.Maui.Layouts;
+using Microsoft.Maui.Controls.PlatformConfiguration;
 using SuperSudoku.Services;
-using System.Data.Common;
+using Cell = SuperSudoku.Models.Cell;
 
 namespace SuperSudoku.Views;
 
@@ -12,7 +12,7 @@ public partial class GameView : ContentPage
 	{
 		InitializeComponent();
 
-		var app = Application.Current as App;
+        var app = Application.Current as App;
 
 		if (app == null)
 			throw new Exception("App is null");
@@ -48,10 +48,12 @@ public partial class GameView : ContentPage
 
 				cell.SetBinding(Entry.TextProperty,
 					new Binding("DisplayValue", BindingMode.TwoWay));
+                cell.TextChanged += OnCellTextChanged;
 
                 if (gameService.CurrentBoard.Cells[row, column].IsGiven)
                 {
                     cell.FontAttributes = FontAttributes.Bold;
+					cell.IsReadOnly = true;
                 }
 
                 var border = new Border
@@ -70,7 +72,15 @@ public partial class GameView : ContentPage
 		}
 	}
 
-private async void SwipeGestureRecognizer_SwipedRight(object sender, SwipedEventArgs e)
+    private void OnCellTextChanged(object sender, TextChangedEventArgs e)
+    {
+        var entry = (Entry)sender;
+        var cell = (Cell)entry.BindingContext;
+
+        gameService.HandleCellChanged(cell);
+    }
+
+    private async void SwipeGestureRecognizer_SwipedRight(object sender, SwipedEventArgs e)
 	{
 		gameService.SaveCurrentGame();
 		await Navigation.PopAsync();

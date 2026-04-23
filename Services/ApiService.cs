@@ -4,14 +4,21 @@ namespace SuperSudoku.Services
 {
 	internal static class ApiService
 	{
-		public static async IAsyncEnumerable<(List<List<int>>, List<List<int>>, string)> GetApiPuzzlesAsync(int count=20)
+        /// <summary>
+        /// Asynchronously retrieves Sudoku puzzles from the API and yields them as tuples containing the player board, solution, and difficulty level.
+        /// </summary>
+        /// <param name="count">The number of puzzles to retrieve from the API.</param>
+        /// <returns>An asynchronous stream of tuples containing the player board, solution, and difficulty level.</returns>
+        /// <exception cref="HttpRequestException">Thrown when the API request fails after multiple attempts.</exception>
+        /// <exception cref="InvalidOperationException">Thrown when the API response is empty or invalid.</exception>
+        public static async IAsyncEnumerable<(List<List<int>>, List<List<int>>, string)> GetApiPuzzlesAsync(int count=20)
 		{
 			HttpClient client = new HttpClient();
 			string query = $"{{newboard(limit:{count}){{grids{{value,solution,difficulty}},results,message}}}}";
 			string apiURL = "https://sudoku-api.vercel.app/api/dosuku?query=" + Uri.EscapeDataString(query);
 			var request = new HttpRequestMessage(HttpMethod.Get, apiURL);
 
-			HttpResponseMessage response = null;
+			HttpResponseMessage? response = null;
 			int maxRetries = 5;
 
 			for (int i = 0; i < maxRetries; i++)

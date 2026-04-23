@@ -13,7 +13,7 @@ namespace SuperSudoku.Services
 		private readonly string _SettingsPath = Path.Combine(
 			FileSystem.AppDataDirectory,
 			"SuperSudoku",
-			"Settings"
+			"settings"
 		);
 
 		/// <summary>
