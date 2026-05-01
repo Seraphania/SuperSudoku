@@ -9,7 +9,7 @@ namespace SuperSudoku.Services
 	public class SettingsService
 	{
 		public Settings settings;
-		// Saves to: C:\Users\<User>\AppData\Local\User Name\com.companyname.supersudoku\Data
+		// For PC Saves to: C:\Users\<User>\AppData\Local\User Name\com.companyname.supersudoku\Data TODO: remove this later
 		private readonly string _SettingsPath = Path.Combine(
 			FileSystem.AppDataDirectory,
 			"SuperSudoku",

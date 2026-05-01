@@ -16,7 +16,7 @@ namespace SuperSudoku.Services
 			HttpClient client = new HttpClient();
 			string query = $"{{newboard(limit:{count}){{grids{{value,solution,difficulty}},results,message}}}}";
 			string apiURL = "https://sudoku-api.vercel.app/api/dosuku?query=" + Uri.EscapeDataString(query);
-			var request = new HttpRequestMessage(HttpMethod.Get, apiURL);
+			HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, apiURL);
 
 			HttpResponseMessage? response = null;
 			int maxRetries = 5;
