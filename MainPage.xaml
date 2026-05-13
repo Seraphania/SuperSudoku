@@ -6,6 +6,18 @@
     <VerticalStackLayout>
         <Button x:Name="ButtonSettings" Text="Settings" Margin="5,5,5,5" MaximumWidthRequest="150" Clicked="ButtonSettings_Clicked" />
         <Button x:Name="ButtonPlay" Text="Play!" Margin="5,5,5,5" MaximumWidthRequest="150" Clicked="ButtonPlay_Clicked" />
+		<FlexLayout Direction="Column"
+					AlignItems="Center"
+					JustifyContent="SpaceEvenly">
+			<Label Text="Background: Charcoal" BackgroundColor="#010402" />
+			<Label Text="Surface: Deep Moss" BackgroundColor="#2D3A33" />
+			<Label Text="Primary Accent: Eucalyptus" BackgroundColor="#5F8F73" />
+			<Label Text="Secondary Accent: Sage" BackgroundColor="#A4B494" />
+			<Label Text="Highlight: Soft Mint" BackgroundColor="#dcffd6" TextColor="#1F2421" />
+			<Label Text="Text Primary: Warm White" BackgroundColor="#F3F4EF" TextColor="#1F2421" />
+			<Label Text="Text Secondary: Stone Grey" BackgroundColor="#B7BDB3" />
+			<Label Text="Error/Conflict: Muted Terracotta" BackgroundColor="#B46A55" />
+		</FlexLayout>
     </VerticalStackLayout>
 
 </ContentPage>
