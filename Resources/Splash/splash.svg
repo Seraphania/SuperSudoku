@@ -1,8 +1,42 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg width="456" height="456" viewBox="0 0 456 456" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
-    <path d="m 105.50037,281.60863 c -2.70293,0 -5.00091,-0.90042 -6.893127,-2.70209 -1.892214,-1.84778 -2.837901,-4.04181 -2.837901,-6.58209 0,-2.58722 0.945687,-4.80389 2.837901,-6.65167 1.892217,-1.84778 4.190197,-2.77167 6.893127,-2.77167 2.74819,0 5.06798,0.92389 6.96019,2.77167 1.93749,1.84778 2.90581,4.06445 2.90581,6.65167 0,2.54028 -0.96832,4.73431 -2.90581,6.58209 -1.89221,1.80167 -4.212,2.70209 -6.96019,2.70209 z" style="fill:#ffffff;fill-rule:nonzero;stroke-width:0.838376" />
-    <path d="M 213.56111,280.08446 H 195.99044 L 149.69953,207.0544 c -1.17121,-1.84778 -2.14037,-3.76515 -2.90581,-5.75126 h -0.40578 c 0.36051,2.12528 0.54076,6.67515 0.54076,13.6496 v 65.13172 h -15.54349 v -99.36009 h 18.71925 l 44.7374,71.29798 c 1.89222,2.95695 3.1087,4.98917 3.64945,6.09751 h 0.26996 c -0.45021,-2.6325 -0.67573,-7.09015 -0.67573,-13.37293 v -64.02256 h 15.47557 z" style="fill:#ffffff;fill-rule:nonzero;stroke-width:0.838376" />
-    <path d="m 289.25134,280.08446 h -54.40052 v -99.36009 h 52.23835 v 13.99669 h -36.15411 v 28.13085 h 33.31621 v 13.9271 h -33.31621 v 29.37835 h 38.31628 z" style="fill:#ffffff;fill-rule:nonzero;stroke-width:0.838376" />
-    <path d="M 366.56466,194.72106 H 338.7222 v 85.3634 h -16.08423 v -85.3634 h -27.77455 v -13.99669 h 71.70124 z" style="fill:#ffffff;fill-rule:nonzero;stroke-width:0.838376" />
-</svg>
+<svg
+   width="337.43488"
+   height="342.28821"
+   viewBox="0 0 337.43488 342.28821"
+   version="1.1"
+   xml:space="preserve"
+   style="clip-rule:evenodd;fill-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2"
+   id="svg4"
+   sodipodi:docname="splash.svg"
+   inkscape:version="1.4.4 (dcaf3e7, 2026-05-05)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><defs
+   id="defs4" /><sodipodi:namedview
+   id="namedview4"
+   pagecolor="#ffffff"
+   bordercolor="#000000"
+   borderopacity="0.25"
+   inkscape:showpageshadow="2"
+   inkscape:pageopacity="0.0"
+   inkscape:pagecheckerboard="0"
+   inkscape:deskcolor="#d1d1d1"
+   inkscape:zoom="1.3495913"
+   inkscape:cx="17.412679"
+   inkscape:cy="200.43105"
+   inkscape:window-width="1920"
+   inkscape:window-height="1027"
+   inkscape:window-x="-8"
+   inkscape:window-y="-8"
+   inkscape:window-maximized="1"
+   inkscape:current-layer="svg4" />
+    
+    
+    
+    
+<path
+   style="display:inline;fill:#010402;fill-opacity:1;stroke:none;stroke-width:7.57403"
+   d="m 223.37139,342.28822 -5.85054,-49.47865 c 17.13958,10.80809 8.08671,-32.39878 26.19207,-13.68769 2.30247,-7.97355 2.93158,-14.31311 9.55893,-4.21582 6.00344,6.50668 14.51319,17.10432 8.12836,2.44137 -11.07794,-17.47391 13.37491,-0.72526 14.09359,-10.01775 0.38837,-13.31002 30.38674,-14.44036 26.69596,-22.46863 -18.73624,-11.78052 -14.1372,-37.6971 -4.78534,-54.13071 C 315.80562,153.2057 338.09167,114.9251 337.40045,71.747148 338.37372,41.749915 318.62226,12.932322 289.97087,3.7171168 268.70149,-4.6040322 244.38839,1.6095578 227.79116,16.73559 199.84088,39.203503 219.73776,35.838368 190.81298,57.251058 143.79572,95.994948 61.734338,157.8601 33.470637,213.24128 18.785653,238.87383 6.653973,259.11679 0,308.48049 8.753694,329.30596 6.103852,305.18769 13.150491,291.6271 49.964868,197.00347 201.86031,89.952898 240.17948,117.93378 c 16.33724,12.5337 3.23636,31.59003 -4.48313,44.79975 -30.81033,48.63625 -49.73472,127.01516 -20.86317,170.77153 2.4664,3.26643 5.32206,6.2471 8.53821,8.78316 z M 241.29232,39.185334 c -6.05908,1.404052 -10.07113,10.500224 2.48176,6.231074 6.16263,-2.09586 2.92966,-7.485039 -2.48176,-6.231074 z m -41.32323,24.785184 c -1.79528,-1.58878 -13.29802,6.41502 -5.85062,3.09244 3.67665,-0.97488 7.64588,-1.50367 5.85062,-3.09244 z m 0,27.83179 c -3.87265,4.09375 -3.01942,3.1918 0,0 z m -5.85059,3.09237 c -8.82758,4.94508 -34.19596,20.125412 -41.50573,26.530222 L 88.807918,169.11274 C 153.23991,115.56758 165.76471,105.93904 194.1185,94.894678 Z"
+   id="path7"
+   sodipodi:nodetypes="cccccccccccccccccccssszzzcccccc" /></svg>

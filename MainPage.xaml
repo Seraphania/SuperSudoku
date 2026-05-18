@@ -9,14 +9,14 @@
 		<FlexLayout Direction="Column"
 					AlignItems="Center"
 					JustifyContent="SpaceEvenly">
-			<Label Text="Background: Charcoal" BackgroundColor="#010402" />
-			<Label Text="Surface: Deep Moss" BackgroundColor="#2D3A33" />
-			<Label Text="Primary Accent: Eucalyptus" BackgroundColor="#5F8F73" />
-			<Label Text="Secondary Accent: Sage" BackgroundColor="#A4B494" />
-			<Label Text="Highlight: Soft Mint" BackgroundColor="#dcffd6" TextColor="#1F2421" />
-			<Label Text="Text Primary: Warm White" BackgroundColor="#F3F4EF" TextColor="#1F2421" />
-			<Label Text="Text Secondary: Stone Grey" BackgroundColor="#B7BDB3" />
-			<Label Text="Error/Conflict: Muted Terracotta" BackgroundColor="#B46A55" />
+            <Label Text="Background: Charcoal" BackgroundColor="#1C2518" />
+            <Label Text="Surface" BackgroundColor="#45693B" />
+            <Label Text="Primary Accent" BackgroundColor="#3C782B" />
+            <Label Text="Secondary Accent" BackgroundColor="#7FC96B" />
+                <Label Text="Highlight" BackgroundColor="#D2ECCB" TextColor="#1C2518" />
+                <Label Text="Text Primary: Warm White" BackgroundColor="#FCFCF5" TextColor="#1C2518" />
+                <Label Text="Text Secondary: Stone Grey" BackgroundColor="#E2E2DC" />
+                <Label Text="Error/Conflict: Muted Terracotta" BackgroundColor="#BB6644" />
 		</FlexLayout>
     </VerticalStackLayout>
 
