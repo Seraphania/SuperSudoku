@@ -74,25 +74,6 @@ namespace SuperSudoku.Services
 		{
 			await foreach (Puzzle puzzle in ApiService.GetApiPuzzlesAsync())
 			{
-				//int[] Flatten(List<List<int>> grid)
-				//{
-				//	return grid.SelectMany(row => row).ToArray();
-				//}
-
-				//var parsedDifficulty = difficulty.ToLower() switch
-				//{
-				//	"easy" => Difficulty.Easy,
-				//	"medium" => Difficulty.Medium,
-				//	"hard" => Difficulty.Hard,
-				//	_ => throw new NotImplementedException(),
-				//};
-
-				//Puzzle puzzle = new Puzzle(
-				//		new Board(Flatten(playerboard)),
-				//		new Board(Flatten(solution)),
-				//		parsedDifficulty
-				//	);
-
 				switch (puzzle.Difficulty)
 				{
 					case Difficulty.Easy:
@@ -118,7 +99,7 @@ namespace SuperSudoku.Services
 		//├── EnsurePuzzleStockAsync *
 		//├── LoadFromDisk *
 		//├── SaveToDisk *
-		//├── FetchPuzzlesAsync ?
+		//├── FetchPuzzlesAsync *
 		//├── GetPuzzle
 		//└── SetCurrentPuzzle
 

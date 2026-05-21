@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
+using SuperSudoku.Models;
 
 namespace SuperSudoku.Services
 {
@@ -52,9 +53,6 @@ namespace SuperSudoku.Services
 				);
 			}
 
-			// TODO: Continue refator from here:
-			// Improve code readbility (stylistically), and make This service return Puzzles!
-
 			string responseString = 
 				await response.Content.ReadAsStringAsync();
 			
@@ -65,22 +63,56 @@ namespace SuperSudoku.Services
 
 			JObject root = JObject.Parse(responseString);
 			JObject newBoard = (JObject)root.GetValue("newboard");
-
 			JArray grids = (JArray)newBoard["grids"];
 
 			foreach (var grid in grids)
 			{
-				var playerBoard = grid["value"].ToObject<List<List<int>>>();
-				var solution = grid["solution"].ToObject<List<List<int>>>();
-				var difficulty = grid["difficulty"].ToString();
-
-				yield return (playerBoard, solution, difficulty);
+				yield return ParseApiDataToPuzzle(grid);
 			}			
 		}
 
-		private static Puzzle ParseApiDataToPuzzle() 
+		private static Puzzle ParseApiDataToPuzzle(JToken grid) 
 		{
-			throw new NotImplementedException();
+			List<List<int>>? playerboard = 
+				grid["value"]?.ToObject<List<List<int>>>();
+
+			List<List<int>>? solution =
+				grid["solution"]?.ToObject<List<List<int>>>();
+
+			string? difficulty = 
+				grid["difficulty"]?.ToString();
+
+			if (playerboard == null || 
+				solution == null || 
+				string.IsNullOrWhiteSpace(difficulty)
+			) 
+			{ 
+				throw new InvalidOperationException(
+					"Invalid data format from API."
+				); // Handle missing or malformed data?
+            }
+
+			int[] Flatten(List<List<int>> grid)
+			{
+				return grid.SelectMany(row => row).ToArray();
+			}
+
+			Difficulty parsedDifficulty = 
+				difficulty.ToLower() switch
+			{
+				"easy" => Difficulty.Easy,
+				"medium" => Difficulty.Medium,
+				"hard" => Difficulty.Hard,
+				_ => throw new InvalidOperationException(
+					$"Unknown difficulty level: {difficulty}"
+                ), // Handle unknown difficulty levels?
+            };
+
+			return new Puzzle(
+				new Board(Flatten(playerboard)),
+				new Board(Flatten(solution)),
+				parsedDifficulty
+			);
 		}
-	}
+    }
 }
