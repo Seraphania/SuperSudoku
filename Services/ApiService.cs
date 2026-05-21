@@ -4,39 +4,64 @@ namespace SuperSudoku.Services
 {
 	internal static class ApiService
 	{
-        /// <summary>
-        /// Asynchronously retrieves Sudoku puzzles from the API and yields them as tuples containing the player board, solution, and difficulty level.
-        /// </summary>
-        /// <param name="count">The number of puzzles to retrieve from the API.</param>
-        /// <returns>An asynchronous stream of tuples containing the player board, solution, and difficulty level.</returns>
-        /// <exception cref="HttpRequestException">Thrown when the API request fails after multiple attempts.</exception>
-        /// <exception cref="InvalidOperationException">Thrown when the API response is empty or invalid.</exception>
-        public static async IAsyncEnumerable<(List<List<int>>, List<List<int>>, string)> GetApiPuzzlesAsync(int count=20)
+		private static readonly HttpClient _client = new();
+		private const int MaxRetries = 5;
+		
+		public static async IAsyncEnumerable<Puzzle> GetApiPuzzlesAsync(
+			int count=20
+		)
 		{
-			HttpClient client = new HttpClient();
-			string query = $"{{newboard(limit:{count}){{grids{{value,solution,difficulty}},results,message}}}}";
-			string apiURL = "https://sudoku-api.vercel.app/api/dosuku?query=" + Uri.EscapeDataString(query);
-			HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, apiURL);
+			string query = 
+				$"{{newboard(limit:{count}){{grids{{value,solution,difficulty}},results,message}}}}";
+
+			string apiUrl = 
+				"https://sudoku-api.vercel.app/api/dosuku?query=" 
+				+ Uri.EscapeDataString(query);
 
 			HttpResponseMessage? response = null;
-			int maxRetries = 5;
-
-			for (int i = 0; i < maxRetries; i++)
+			
+			for (int i = 0; i < MaxRetries; i++)
 			{
-                request = new HttpRequestMessage(HttpMethod.Get, apiURL);
-                response = await client.SendAsync(request);
-				if (response.IsSuccessStatusCode)
-					break;
-				// Wait before trying again
-				await Task.Delay(10000);
+				try
+				{
+					using HttpRequestMessage request =
+						new(HttpMethod.Get, apiUrl);
+
+					response = await _client.SendAsync(request);
+
+					if (response.IsSuccessStatusCode)
+						break;
+				}
+				catch (HttpRequestException)
+				{
+				}
+				if (i < MaxRetries - 1)
+				{
+					await Task.Delay(5000);
+				}
 			}
 
-			if (!response.IsSuccessStatusCode)
-				throw new HttpRequestException($"After {maxRetries} attempts, the server responded with status code: {response.StatusCode}"); 
+			if (response == null || !response.IsSuccessStatusCode)
+			{
+				string status =
+					response?.StatusCode.ToString() ?? "No response";
+
+				throw new HttpRequestException(
+					$"After {MaxRetries} attempts, the server responded " +
+					$"with status code: {response.StatusCode}"
+				);
+			}
+
+			// TODO: Continue refator from here:
+			// Improve code readbility (stylistically), and make This service return Puzzles!
+
+			string responseString = 
+				await response.Content.ReadAsStringAsync();
 			
-			string responseString = await response.Content.ReadAsStringAsync();
 			if (string.IsNullOrWhiteSpace(responseString))
-				throw new InvalidOperationException("Empty response from server.");
+				throw new InvalidOperationException(
+					"Empty response from server."
+				);
 
 			JObject root = JObject.Parse(responseString);
 			JObject newBoard = (JObject)root.GetValue("newboard");
@@ -51,6 +76,11 @@ namespace SuperSudoku.Services
 
 				yield return (playerBoard, solution, difficulty);
 			}			
+		}
+
+		private static Puzzle ParseApiDataToPuzzle() 
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

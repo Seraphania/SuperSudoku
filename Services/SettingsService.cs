@@ -8,13 +8,7 @@ namespace SuperSudoku.Services
 	/// </summary>
 	public class SettingsService
 	{
-		public Settings settings;
-		// For PC Saves to: C:\Users\<User>\AppData\Local\User Name\com.companyname.supersudoku\Data TODO: remove this later
-		private readonly string _SettingsPath = Path.Combine(
-			FileSystem.AppDataDirectory,
-			"SuperSudoku",
-			"settings"
-		);
+		public Settings settings { get; private set; }
 
 		/// <summary>
 		/// Initializes a new instance of the SettingsService class and ensures the settings directory exists.
@@ -22,10 +16,6 @@ namespace SuperSudoku.Services
 		public SettingsService() 
 		{
 			settings = new Settings();
-			Directory.CreateDirectory(Path.Combine(
-			FileSystem.AppDataDirectory,
-			"SuperSudoku"
-			));
 			GetSettings();
 		}
 
@@ -36,7 +26,7 @@ namespace SuperSudoku.Services
 		/// <returns>The loaded or default application settings.</returns>
 		public Settings GetSettings()
 		{
-			settings = JsonWrangler.Load<Settings>(_SettingsPath);
+			settings = JsonWrangler.Load<Settings>(AppPaths.FilePath("settings"));
 			if (settings != null)
 			{
 				return settings;
@@ -55,7 +45,7 @@ namespace SuperSudoku.Services
 		public void UpdateSettings(Settings settings)
 		{
 			this.settings = settings;
-            JsonWrangler.Save<Settings>(_SettingsPath, this.settings);
+            JsonWrangler.Save<Settings>(AppPaths.FilePath("settings"), this.settings);
 		}
 
 		private void SetDefaultSettings()

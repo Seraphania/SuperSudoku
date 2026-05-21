@@ -9,21 +9,18 @@ namespace SuperSudoku
 
         public App()
         {
-            SettingsService = new SettingsService();
-            PuzzleService = new PuzzleService();
-            PuzzleService.LoadOrRequestPuzzleBox();
+			InitializeComponent();
 
-            InitializeComponent();
+			SettingsService = new SettingsService();
+            PuzzleService = new PuzzleService();
+            _ = PuzzleService.InitialiseAsync();
+
+            Directory.CreateDirectory(AppPaths.AppDirectory);            
         }
 
         protected override Window CreateWindow(IActivationState? activationState)
         {
             return new Window(new AppShell());
-        }
-
-        protected override async void OnStart() 
-        {
-            await PuzzleService.LoadOrRequestPuzzleBox();
         }
     }
 }

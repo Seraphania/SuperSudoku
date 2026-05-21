@@ -23,6 +23,13 @@ namespace SuperSudoku
 
         private async void ButtonPlay_Clicked(object sender, EventArgs e)
         {
+            App app = (App)Application.Current;
+            while (!app.PuzzleService.IsReady)
+            {
+                // TODO: Show Loading Feather thingo!
+                await Task.Delay(100);
+            }
+
             await Navigation.PushAsync(new GameView());
         }
     }
