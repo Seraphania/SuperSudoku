@@ -1,36 +1,33 @@
-﻿using SuperSudoku.Models;
-using SuperSudoku.Services;
-using SuperSudoku.Views;
+﻿using SuperSudoku.Views;
 
 namespace SuperSudoku
 {
     public partial class MainPage : ContentPage
     {
+        private readonly App _app;
+
         public MainPage()
         {
-            var app = Application.Current as App;
-
-            var settingsService = app.SettingsService;
-            var puzzleService = app.PuzzleService;
-
             InitializeComponent();
-        }
+			_app = (App)Application.Current!;
+		}
 
         private async void ButtonSettings_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new SettingsView(Application.Current as App));
+            await Navigation.PushAsync(new SettingsView(_app));
         }
 
         private async void ButtonPlay_Clicked(object sender, EventArgs e)
         {
-            App app = (App)Application.Current;
-            while (!app.PuzzleService.IsReady)
+            while (!_app.PuzzleService.IsReady)
             {
-                // TODO: Show Loading Feather thingo!
                 await Task.Delay(100);
             }
 
-            await Navigation.PushAsync(new GameView());
+            var difficulty = _app.SettingsService.SelectedDifficulty;
+            var puzzle = _app.GameService.StartGame(difficulty);
+
+            await Navigation.PushAsync(new GameView(puzzle));
         }
     }
 }

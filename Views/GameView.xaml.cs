@@ -1,4 +1,4 @@
-using Microsoft.Maui.Controls.PlatformConfiguration;
+﻿using Microsoft.Maui.Controls.PlatformConfiguration;
 using SuperSudoku.Services;
 using Cell = SuperSudoku.Models.Cell;
 
@@ -6,22 +6,14 @@ namespace SuperSudoku.Views;
 
 public partial class GameView : ContentPage
 {
-	private readonly GameService gameService;
+	private readonly App _app;
 
-	public GameView()
+	public GameView(App app)
 	{
 		InitializeComponent();
+        _app = app;
 
-        var app = Application.Current as App;
-
-		if (app == null)
-			throw new Exception("App is null");
-
-		gameService = new GameService(
-			app.SettingsService,
-			app.PuzzleService
-		);
-		gameService.InitialiseGame();
+		_app.GameService.InitialiseGame();
 		BuildGrid();
 	}
 
@@ -43,14 +35,14 @@ public partial class GameView : ContentPage
 					HorizontalTextAlignment = TextAlignment.Center,
 					VerticalTextAlignment = TextAlignment.Center,
 					MaxLength = 1,
-					BindingContext = gameService.CurrentBoard.Cells[row, column],
+					BindingContext = _app.GameService.CurrentBoard.Cells[row, column],
 				};
 
 				cell.SetBinding(Entry.TextProperty,
 					new Binding("DisplayValue", BindingMode.TwoWay));
                 cell.TextChanged += OnCellTextChanged;
 
-                if (gameService.CurrentBoard.Cells[row, column].IsGiven)
+                if (_app.GameService.CurrentBoard.Cells[row, column].IsGiven)
                 {
                     cell.FontAttributes = FontAttributes.Bold;
 					cell.IsReadOnly = true;
@@ -77,12 +69,19 @@ public partial class GameView : ContentPage
         var entry = (Entry)sender;
         var cell = (Cell)entry.BindingContext;
 
-        gameService.HandleCellChanged(cell);
+        _app.GameService.HandleCellChanged(cell);
     }
 
     private async void SwipeGestureRecognizer_SwipedRight(object sender, SwipedEventArgs e)
 	{
-		gameService.SaveCurrentGame();
+		_app.GameService.SaveCurrentGame();
 		await Navigation.PopAsync();
 	}
+
+	//Play pressed
+	//             → Read selected difficulty from Settings
+	//             → Check for active puzzle for that difficulty
+	//                 → if exists: resume it
+	//                 → if not: pull puzzle from cache/ create new active puzzle
+	//             → Navigate to GameView
 }

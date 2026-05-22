@@ -25,7 +25,6 @@ namespace SuperSudoku.Services
 			try
 			{
 				LoadFromDisk();
-				NormalizePuzzleBox();
 				await EnsurePuzzleStockAsync();
 				SaveToDisk();
 
@@ -60,13 +59,16 @@ namespace SuperSudoku.Services
 				_puzzleBox.HardPuzzles.Count <= MinimumPuzzleCount)
 			{
 				await FetchPuzzleAsync();
-				NormalizePuzzleBox();
 			}
+		}
+
+		public PuzzleBox GetPuzzleBox()
+		{
+			return _puzzleBox;
 		}
 
 		public void SaveToDisk()
 		{
-			// NormalizePuzzleBox(); Needed?
 			JsonWrangler.Save<PuzzleBox>(AppPaths.FilePath("puzzles"), _puzzleBox);
 		}
 
@@ -94,93 +96,71 @@ namespace SuperSudoku.Services
 			}
 		}
 
-		//PuzzleService
-		//├── InitializeAsync *
-		//├── EnsurePuzzleStockAsync *
-		//├── LoadFromDisk *
-		//├── SaveToDisk *
-		//├── FetchPuzzlesAsync *
-		//├── GetPuzzle
-		//└── SetCurrentPuzzle
-
-		public Puzzle GetPuzzle()
-        {
-            return _puzzleBox.CurrentPuzzle;
-        }
-
-        public Puzzle GetCurrentPuzzle(Difficulty difficulty, PuzzleBox _PuzzleBox)
+		public Puzzle? GetActivePuzzle(Difficulty difficulty)
 		{
-			if (_PuzzleBox.CurrentPuzzle != null)
-			{
-				return _PuzzleBox.CurrentPuzzle;
-			}
-			else
-			{
-				SetCurrentPuzzle(difficulty);
-				return _PuzzleBox.CurrentPuzzle;
-			}
+			return GetActiveSlot(difficulty);
 		}
 
-		public void SetCurrentPuzzle(Difficulty difficulty)
+		public Puzzle GetOrCreateActivePuzzle(Difficulty difficulty) 
 		{
-			List<Puzzle> sourceList = difficulty switch
-            {
-                Difficulty.Easy => _puzzleBox.EasyPuzzles,
-                Difficulty.Medium => _puzzleBox.MediumPuzzles,
-                Difficulty.Hard => _puzzleBox.HardPuzzles,
-                _ => throw new NotImplementedException(),
-            };
+			var active = GetActiveSlot(difficulty);
+			if (active != null)
+				return active;
 
-			if (sourceList.Count == 0)
-			{
-				throw new Exception("No puzzles available for this difficulty");
-			}
+			var list = GetPuzzleList(difficulty);
 
-			_puzzleBox.CurrentPuzzle = sourceList[0];
-            sourceList.RemoveAt(0);
-			EnsurePuzzleStockAsync();
+			if (list.Count == 0)
+				throw new InvalidOperationException(
+					$"No cached {difficulty} puzzles available."
+				);
 
-			SaveToDisk();
+			Puzzle puzzle = list[0];
+			list.RemoveAt(0);
+
+			SetActiveSlot(difficulty, puzzle);
+			return puzzle;
 		}
 
-        private void NormalizePuzzleBox()
-        {
-            foreach (var puzzle in _puzzleBox.EasyPuzzles
-                .Concat(_puzzleBox.MediumPuzzles)
-                .Concat(_puzzleBox.HardPuzzles))
-            {
-                NormalizeBoard(puzzle.PlayerBoard);
-                NormalizeBoard(puzzle.Solution, puzzle.PlayerBoard);
+		public void ClearActivePuzzle(Difficulty difficulty)
+		{
+			SetActiveSlot(difficulty, null);
+		}
 
-                if (puzzle.CurrentBoard != null)
-                    NormalizeBoard(puzzle.CurrentBoard, puzzle.PlayerBoard);
-            }
-        }
+		private List<Puzzle> GetPuzzleList(Difficulty difficulty) => difficulty switch
+		{
+			Difficulty.Easy => _puzzleBox.EasyPuzzles,
+			Difficulty.Medium => _puzzleBox.MediumPuzzles,
+			Difficulty.Hard => _puzzleBox.HardPuzzles,
+			_ => throw new ArgumentOutOfRangeException(nameof(difficulty))
+		};
 
-        private void NormalizeBoard(Board board)
-        {
-            for (int row = 0; row < Board.boardSize; row++)
-            {
-                for (int col = 0; col < Board.boardSize; col++)
-                {
-                    var cell = board.Cells[row, col];
+		private Puzzle? GetActiveSlot(Difficulty difficulty) => difficulty switch
+		{
+			Difficulty.Easy => _puzzleBox.ActiveEasyPuzzle,
+			Difficulty.Medium => _puzzleBox.ActiveMediumPuzzle,
+			Difficulty.Hard => _puzzleBox.ActiveHardPuzzle,
+			_ => throw new ArgumentOutOfRangeException(nameof(difficulty))
+		};
 
-                    cell.IsGiven = cell.Value != null && cell.Value != 0;
-                }
-            }
-        }
+		private void SetActiveSlot(Difficulty difficulty, Puzzle? puzzle)
+		{
+			switch (difficulty)
+			{
+				case Difficulty.Easy:
+					_puzzleBox.ActiveEasyPuzzle = puzzle;
+					break;
 
-        private void NormalizeBoard(Board board, Board playerBoard)
-        {
-            for (int row = 0; row < Board.boardSize; row++)
-            {
-                for (int col = 0; col < Board.boardSize; col++)
-                {
-                    var cell = board.Cells[row, col];
-					if (cell.Value == playerBoard.GetCell(row, col).Value)
-						cell.IsGiven = true;
-                }
-            }
-        }
-    }
+				case Difficulty.Medium:
+					_puzzleBox.ActiveMediumPuzzle = puzzle;
+					break;
+
+				case Difficulty.Hard:
+					_puzzleBox.ActiveHardPuzzle = puzzle;
+					break;
+
+				default:
+					throw new ArgumentOutOfRangeException(nameof(difficulty));
+			}
+		}
+	}
 }

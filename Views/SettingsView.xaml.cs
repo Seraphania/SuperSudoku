@@ -1,42 +1,30 @@
 using SuperSudoku.Models;
-using SuperSudoku.Services;
 
 namespace SuperSudoku.Views;
 
-/// <summary>
-/// Represents a page for viewing and modifying application settings.
-/// </summary>
 public partial class SettingsView : ContentPage
 {
-	private SettingsService _settingsService;
-	private Settings _settings;
-	private PuzzleService _puzzleService;
-	private PuzzleBox _puzzleBox;
+	private readonly App _app;
 
-	/// <summary>
-	/// Initializes a new instance of the SettingsView class using the specified application context.
-	/// </summary>
-	/// <param name="current">The current application instance, or null to use default settings.</param>
-	public SettingsView(App? current)
+	public SettingsView(App app)
 	{
 		InitializeComponent();
-
-		_settingsService = current.SettingsService;
-		_puzzleService = current.PuzzleService;
-		_settings = _settingsService.GetSettings();
-		_puzzleBox = _puzzleService.GetPuzzleBox();
+		_app = app;
 
 		UpdatePickerItems();
-		PickerDifficulty.SelectedIndex = (int)_settings.SelectedDifficulty;
+
+		PickerDifficulty.SelectedIndex = 
+			(int)_app.SettingsService.SelectedDifficulty;
 	}
 
 	private void UpdatePickerItems()
 	{
+		var puzzleBox = _app.PuzzleService.GetPuzzleBox();
 		var items = new List<string>
 		{
-			$"Easy ({_puzzleBox.EasyPuzzles.Count})",
-			$"Medium ({_puzzleBox.MediumPuzzles.Count})",
-			$"Hard ({_puzzleBox.HardPuzzles.Count})"
+			$"Easy ({puzzleBox.EasyPuzzles.Count})",
+			$"Medium ({puzzleBox.MediumPuzzles.Count})",
+			$"Hard ({puzzleBox.HardPuzzles.Count})"
 		};
 
 		PickerDifficulty.ItemsSource = items;
@@ -47,7 +35,7 @@ public partial class SettingsView : ContentPage
 		if (PickerDifficulty.SelectedIndex < 0)
 			return;
 
-		_settings.SelectedDifficulty = (Difficulty)PickerDifficulty.SelectedIndex;
-		_settingsService.UpdateSettings(_settings);
+		_app.SettingsService.SelectedDifficulty =
+			(Difficulty)PickerDifficulty.SelectedIndex;
     }
 }

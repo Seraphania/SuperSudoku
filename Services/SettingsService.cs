@@ -2,58 +2,44 @@
 
 namespace SuperSudoku.Services
 {
-	/// <summary>
-	/// Provides functionality to manage application settings, 
-	/// including loading, updating, and persisting user preferences.
-	/// </summary>
-	public class SettingsService
+	public class SettingsService 
 	{
-		public Settings settings { get; private set; }
+		private Settings _settings;
+		public Difficulty SelectedDifficulty
+		{
+			get => _settings.SelectedDifficulty;
+			set
+			{
+				_settings.SelectedDifficulty = value;
+				SaveToDisk();
+			}
+		}
 
-		/// <summary>
-		/// Initializes a new instance of the SettingsService class and ensures the settings directory exists.
-		/// </summary>
 		public SettingsService() 
 		{
-			settings = new Settings();
-			GetSettings();
+			_settings = LoadFromDisk() ?? CreateDefaultSettings();
+		}
+		
+		private Settings? LoadFromDisk()
+		{
+			return JsonWrangler.Load<Settings>(
+					AppPaths.FilePath("settings")
+			);
 		}
 
-		/// <summary>
-		/// Retrieves the current application settings, loading from storage or 
-		/// initializing defaults if unavailable.
-		/// </summary>
-		/// <returns>The loaded or default application settings.</returns>
-		public Settings GetSettings()
+		private Settings CreateDefaultSettings() 
 		{
-			settings = JsonWrangler.Load<Settings>(AppPaths.FilePath("settings"));
-			if (settings != null)
+			return new Settings
 			{
-				return settings;
-			}
-			else
-			{
-				SetDefaultSettings();
-				return settings;
-			}
+				SelectedDifficulty = Difficulty.Medium
+			};
 		}
-
-		/// <summary>
-		/// Updates the current settings and saves them to persistent storage.
-		/// </summary>
-		/// <param name="settings">The new settings to apply and persist.</param>
-		public void UpdateSettings(Settings settings)
+		private void SaveToDisk()
 		{
-			this.settings = settings;
-            JsonWrangler.Save<Settings>(AppPaths.FilePath("settings"), this.settings);
-		}
-
-		private void SetDefaultSettings()
-		{
-			Settings defaultSettings = new Settings();
-			defaultSettings.SelectedDifficulty = Difficulty.Medium;
-			settings = defaultSettings;
-			UpdateSettings(settings);
+			JsonWrangler.Save(
+				AppPaths.FilePath("settings"), 
+				_settings
+			);
 		}
 	}
 }

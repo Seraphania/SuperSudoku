@@ -9,7 +9,7 @@ namespace SuperSudoku.Services
 		private const int MaxRetries = 5;
 		
 		public static async IAsyncEnumerable<Puzzle> GetApiPuzzlesAsync(
-			int count=20
+			int count = 20
 		)
 		{
 			string query = 
@@ -49,7 +49,7 @@ namespace SuperSudoku.Services
 
 				throw new HttpRequestException(
 					$"After {MaxRetries} attempts, the server responded " +
-					$"with status code: {response.StatusCode}"
+					$"with status code: {status}"
 				);
 			}
 
@@ -62,8 +62,17 @@ namespace SuperSudoku.Services
 				);
 
 			JObject root = JObject.Parse(responseString);
-			JObject newBoard = (JObject)root.GetValue("newboard");
-			JArray grids = (JArray)newBoard["grids"];
+			JObject? newBoard = 
+				root.GetValue("newboard") as JObject;
+			JArray? grids = 
+				newBoard?["grids"] as JArray;
+
+			if (grids == null)
+			{
+				throw new InvalidOperationException(
+					"Invalid API response structure."				
+				);
+			}
 
 			foreach (var grid in grids)
 			{
@@ -73,7 +82,7 @@ namespace SuperSudoku.Services
 
 		private static Puzzle ParseApiDataToPuzzle(JToken grid) 
 		{
-			List<List<int>>? playerboard = 
+			List<List<int>>? playerBoard = 
 				grid["value"]?.ToObject<List<List<int>>>();
 
 			List<List<int>>? solution =
@@ -82,14 +91,14 @@ namespace SuperSudoku.Services
 			string? difficulty = 
 				grid["difficulty"]?.ToString();
 
-			if (playerboard == null || 
+			if (playerBoard == null || 
 				solution == null || 
 				string.IsNullOrWhiteSpace(difficulty)
 			) 
 			{ 
 				throw new InvalidOperationException(
 					"Invalid data format from API."
-				); // Handle missing or malformed data?
+				);
             }
 
 			int[] Flatten(List<List<int>> grid)
@@ -105,11 +114,11 @@ namespace SuperSudoku.Services
 				"hard" => Difficulty.Hard,
 				_ => throw new InvalidOperationException(
 					$"Unknown difficulty level: {difficulty}"
-                ), // Handle unknown difficulty levels?
+                ),
             };
 
 			return new Puzzle(
-				new Board(Flatten(playerboard)),
+				new Board(Flatten(playerBoard)),
 				new Board(Flatten(solution)),
 				parsedDifficulty
 			);
