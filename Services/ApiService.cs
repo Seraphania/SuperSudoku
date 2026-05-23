@@ -82,18 +82,22 @@ namespace SuperSudoku.Services
 
 		private static Puzzle ParseApiDataToPuzzle(JToken grid) 
 		{
-			List<List<int>>? playerBoard = 
+			List<List<int>>? startingBoard = 
 				grid["value"]?.ToObject<List<List<int>>>();
 
 			List<List<int>>? solution =
 				grid["solution"]?.ToObject<List<List<int>>>();
 
-			string? difficulty = 
+            List<List<int>>? currentBoard =
+                grid["value"]?.ToObject<List<List<int>>>();
+
+            string? difficulty = 
 				grid["difficulty"]?.ToString();
 
-			if (playerBoard == null || 
+			if (startingBoard == null || 
 				solution == null || 
-				string.IsNullOrWhiteSpace(difficulty)
+				string.IsNullOrWhiteSpace(difficulty) ||
+				currentBoard == null
 			) 
 			{ 
 				throw new InvalidOperationException(
@@ -118,10 +122,11 @@ namespace SuperSudoku.Services
             };
 
 			return new Puzzle(
-				new Board(Flatten(playerBoard)),
+				new Board(Flatten(startingBoard)),
 				new Board(Flatten(solution)),
-				parsedDifficulty
-			);
+                parsedDifficulty,
+                new Board(Flatten(currentBoard))
+            );
 		}
     }
 }

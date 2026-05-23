@@ -2,7 +2,7 @@
 {
     public class Board
 	{
-		private const int boardSize = 9;
+		public const int boardSize = 9;
 		public Cell[,] Cells { get; set; } = new Cell[boardSize, boardSize];
 
         public Board()

@@ -5,17 +5,17 @@
     /// </summary>
     public class Puzzle
 	{
-		public Board PlayerBoard { get; set; }	
+		public Board StartingBoard { get; set; }	
 		public Board Solution { get; set; }
 		public Difficulty Difficulty { get; set; }
-        public Board? CurrentBoard { get; set; }
+        public Board CurrentBoard { get; set; }
 
-        public Puzzle(Board playerBoard, Board solution, Difficulty difficulty, Board? currentBoard = null)
+        public Puzzle(Board startingBoard, Board solution, Difficulty difficulty, Board? currentBoard)
 		{
-			PlayerBoard = playerBoard;
+			StartingBoard = startingBoard;
 			Solution = solution;
 			Difficulty = difficulty;
-			CurrentBoard = currentBoard;
+			CurrentBoard = currentBoard ?? startingBoard.Clone();
 		}
 	}
 }

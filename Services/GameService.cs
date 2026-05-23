@@ -7,13 +7,11 @@ namespace SuperSudoku.Services
     {
         private SettingsService _settingsService;
         private PuzzleService _puzzleService;
-
-        //public Board CurrentBoard => _activePuzzle.CurrentBoard;
-        //public Board playerBoard { get; private set; }
-        //private Board _solutionBoard;
+        private Puzzle _activePuzzle = null!;
+        public Puzzle ActivePuzzle => _activePuzzle;
 
         public GameService(
-            SettingsService settingsService, 
+            SettingsService settingsService,
             PuzzleService puzzleService
         )
         {
@@ -21,89 +19,56 @@ namespace SuperSudoku.Services
             _puzzleService = puzzleService;
         }
 
-        public void InitialiseGame()
+        public Puzzle StartGame(Difficulty difficulty)
         {
-            var settings = _settingsService.GetSettings();
-            _activePuzzle = _puzzleService.GetActivePuzzle(
-                settings.SelectedDifficulty,
-                _puzzleService.GetPuzzleBox()
-            );
-
-            if (_activePuzzle.CurrentBoard != null &&
-                _activePuzzle.Difficulty == settings.SelectedDifficulty)
-            {
-                LoadExistingGame(_activePuzzle);
-            }
-            else
-            {
-                StartNewGame(_activePuzzle);
-            }
-        }
-
-        private void LoadExistingGame(Puzzle puzzle)
-        {
-            _activePuzzle = puzzle;
-            _solutionBoard = puzzle.Solution;
-            playerBoard = puzzle.PlayerBoard;
-
-        }
-
-        private void StartNewGame(Puzzle puzzle)
-        {
-            _activePuzzle = puzzle;
-            _solutionBoard = puzzle.Solution;
-            playerBoard = puzzle.PlayerBoard;
-
-            _activePuzzle.CurrentBoard = puzzle.PlayerBoard.Clone();
-        }
-
-        public void StartNewGame()
-        {
-            Settings settings = _settingsService.GetSettings();
-            _puzzleService.SetActivePuzzle(settings.SelectedDifficulty);
-            _activePuzzle = _puzzleService.GetActivePuzzle(
-                settings.SelectedDifficulty,
-                _puzzleService.GetPuzzleBox()
-            );
-            StartNewGame(_activePuzzle);
+            _activePuzzle =
+                _puzzleService.GetOrCreateActivePuzzle(difficulty);
+            return _activePuzzle;
         }
 
         public void RestartGame()
         {
-            _activePuzzle.CurrentBoard = playerBoard.Clone();
+            _activePuzzle.CurrentBoard = _activePuzzle.StartingBoard.Clone();
             SaveCurrentGame();
         }
 
         public void SaveCurrentGame()
         {
-            _puzzleService.SavePuzzleBox();
+            _puzzleService.SaveToDisk();
         }
 
-        public void HandleCellChanged(Cell cell) 
+        public bool CheckGameCompletion(Cell cell)
         {
-            if (IsPuzzleComplete())
-            {
-                // Add to stats, congratulate user, set off fireworks... inform the king?
-                return;
-            }
-            // Check if the move is valid - and if it's not...?
-            // - validate move
-            // - maybe revert
-            // - maybe highlight errors
-
-        }
-
-        public bool IsPuzzleComplete()
-        {
-            if (CurrentBoard == _solutionBoard)
-            {
-                return true;
-            }
-            else
-            {
-                // Check if all cells are filled in - if they are, Check if the board is solved (not sure if solutions are unique from this API).
+            if (!IsBoardFull())
                 return false;
+
+            return (IsBoardSolved());
+        }
+
+        private bool IsBoardFull()
+        {
+            foreach (Cell cell in _activePuzzle.CurrentBoard.Cells)
+            {
+                if (cell.Value == null)
+                    return false;
             }
+            return true;
+        }
+
+        private bool IsBoardSolved()
+        {
+            for (int row = 0; row < 9; row++)
+            {
+                for (int col = 0; col < 9; col++)
+                {
+                    if (_activePuzzle.CurrentBoard.Cells[row, col].Value != _activePuzzle.Solution.Cells[row, col].Value
+                    )
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
     }
 }

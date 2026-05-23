@@ -45,14 +45,26 @@ namespace SuperSudoku.Services
 						AppPaths.FilePath("puzzles")
 				);
 				_puzzleBox = puzzleBox ?? new PuzzleBox();
-			}
+				NormalisePuzzleBox(_puzzleBox);
+            }
 			catch 
 			{
 				_puzzleBox = new PuzzleBox();
 			}
 		}
 
-		async Task EnsurePuzzleStockAsync()
+        private void NormalisePuzzleBox(PuzzleBox puzzleBox)
+        {
+			foreach (Puzzle puzzle in puzzleBox.EasyPuzzles
+				.Concat(puzzleBox.MediumPuzzles)
+				.Concat(puzzleBox.HardPuzzles))
+			{
+                if (puzzle.CurrentBoard == null)
+                    puzzle.CurrentBoard = puzzle.StartingBoard.Clone();
+            }    
+        }
+
+        async Task EnsurePuzzleStockAsync()
 		{
 			while (_puzzleBox.EasyPuzzles.Count <= MinimumPuzzleCount ||
 				_puzzleBox.MediumPuzzles.Count <= MinimumPuzzleCount ||
@@ -69,7 +81,7 @@ namespace SuperSudoku.Services
 
 		public void SaveToDisk()
 		{
-			JsonWrangler.Save<PuzzleBox>(AppPaths.FilePath("puzzles"), _puzzleBox);
+			JsonWrangler.Save(AppPaths.FilePath("puzzles"), _puzzleBox);
 		}
 
 		async Task FetchPuzzleAsync()
