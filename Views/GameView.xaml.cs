@@ -13,75 +13,91 @@ public partial class GameView : ContentPage
 		InitializeComponent();
         _app = app;
 
-		_app.GameService.InitialiseGame();
 		BuildGrid();
 	}
 
 	void BuildGrid()
 	{
-		for (int i = 0; i < 9; i++)
-		{
-			GridSudoku.AddRowDefinition(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
-			GridSudoku.AddColumnDefinition(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-		}
+		BuildGridDefenitions();
 
-        for (int row = 0; row < 9; row++)
+		for (int row = 0; row < 9; row++)
 		{
-			for (int column = 0; column < 9; column++)
+			for (int col = 0; col < 9; col++)
 			{
-                var cell = new Entry
-				{
-					BackgroundColor = Colors.Transparent,
-					HorizontalTextAlignment = TextAlignment.Center,
-					VerticalTextAlignment = TextAlignment.Center,
-					MaxLength = 1,
-					BindingContext = _app.GameService.CurrentBoard.Cells[row, column],
-				};
-
-				cell.SetBinding(Entry.TextProperty,
-					new Binding("DisplayValue", BindingMode.TwoWay));
-                cell.TextChanged += OnCellTextChanged;
-
-                if (_app.GameService.CurrentBoard.Cells[row, column].IsGiven)
-                {
-                    cell.FontAttributes = FontAttributes.Bold;
-					cell.IsReadOnly = true;
-                }
-
-                var border = new Border
-				{
-					Stroke = Color.FromArgb("#404040"),
-					StrokeThickness = .1,
-					Content = cell,
-					Padding = 0,
-					Margin = 0
-				};
+				var border = CreateCell(row, col);
 
 				GridSudoku.Add(border);
 				Grid.SetRow(border, row);
-				Grid.SetColumn(border, column);
+				Grid.SetColumn(border, col);
 			}
+        }
+    }
+
+	private void BuildGridDefenitions() 
+	{
+		for (int i = 0; i < 9; i++)
+		{
+			GridSudoku.AddRowDefinition(
+				new RowDefinition { Height = GridLength.Star });
+
+			GridSudoku.AddColumnDefinition(
+				new ColumnDefinition { Width = GridLength.Star });
 		}
 	}
 
-    private void OnCellTextChanged(object sender, TextChangedEventArgs e)
-    {
-        var entry = (Entry)sender;
-        var cell = (Cell)entry.BindingContext;
+	private Border CreateCell(int row, int column) 
+	{
+		var boardCell =
+			_app.GameService.ActivePuzzle.CurrentBoard.Cells[row, column];
+		var startingCell =
+			_app.GameService.ActivePuzzle.StartingBoard.Cells[row, column];
 
-        _app.GameService.HandleCellChanged(cell);
+        var cell = new Entry
+		{
+			BackgroundColor = Colors.Transparent,
+			HorizontalTextAlignment = TextAlignment.Center,
+			VerticalTextAlignment = TextAlignment.Center,
+			MaxLength = 1,
+			BindingContext = boardCell,	
+        };
+        cell.SetBinding(
+			Entry.TextProperty,
+			new Binding("DisplayValue", BindingMode.TwoWay));
+        cell.TextChanged += OnCellTextChanged; 
+
+        if (startingCell.Value != null) 
+		{
+			cell.FontAttributes = FontAttributes.Bold;
+			cell.IsReadOnly = true;
+        }
+        var border = new Border
+        {
+            Stroke = Color.FromArgb("#404040"),
+            StrokeThickness = .1,
+            Content = cell,
+            Padding = 0,
+            Margin = 0
+        };
+
+        return border;
     }
 
-    private async void SwipeGestureRecognizer_SwipedRight(object sender, SwipedEventArgs e)
+    private void OnCellTextChanged(object? sender, TextChangedEventArgs e)
+    {
+		if (e.OldTextValue == e.NewTextValue)
+			return;
+
+        if (sender is not Entry entry)
+            return;
+
+        var cell = (Cell)entry.BindingContext;
+
+        _app.GameService.CheckGameCompletion(cell);
+    }
+
+    private async void SwipeGestureRecognizer_SwipedRight(object? sender, SwipedEventArgs e)
 	{
 		_app.GameService.SaveCurrentGame();
 		await Navigation.PopAsync();
 	}
-
-	//Play pressed
-	//             → Read selected difficulty from Settings
-	//             → Check for active puzzle for that difficulty
-	//                 → if exists: resume it
-	//                 → if not: pull puzzle from cache/ create new active puzzle
-	//             → Navigate to GameView
 }

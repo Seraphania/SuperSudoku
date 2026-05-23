@@ -2,21 +2,28 @@
 {
     public class Board
 	{
-		public const int boardSize = 9;
-		public Cell[,] Cells { get; set; } = new Cell[boardSize, boardSize];
+		public const int BoardSize = 9;
+		public Cell[,] Cells { get; set; } = new Cell[BoardSize, BoardSize];
 
         public Board()
 		{
-			Cells = new Cell[boardSize, boardSize];
 		}
 
         public Board(int[] values)
 		{
-			if (values == null) throw new ArgumentNullException(nameof(values));
-			for (int i = 0; i < boardSize * boardSize; i++)
+			if (values == null) 
+				throw new ArgumentNullException(nameof(values));
+
+			if (values.Length != BoardSize * BoardSize)
+				throw new ArgumentException(
+					$"Values array must have exactly {BoardSize * BoardSize} elements.",
+					nameof(values)
+				);
+
+            for (int i = 0; i < BoardSize * BoardSize; i++)
 			{
-				int row = i / boardSize;
-				int col = i % boardSize;
+				int row = i / BoardSize;
+				int col = i % BoardSize;
 				Cells[row, col] = new Cell
 				{
 					Row = row,
@@ -29,9 +36,9 @@
         public Board Clone()
         {
             var newBoard = new Board();
-            for (int row = 0; row < boardSize; row++)
+            for (int row = 0; row < BoardSize; row++)
             {
-                for (int col = 0; col < boardSize; col++)
+                for (int col = 0; col < BoardSize; col++)
                 {
                     var original = Cells[row, col];
                     newBoard.Cells[row, col] = new Cell
@@ -39,7 +46,6 @@
                         Row = original.Row,
                         Column = original.Column,
                         Value = original.Value,
-                        IsGiven = original.IsGiven,
                         Notes = new List<int>(original.Notes)
                     };
                 }
@@ -47,32 +53,30 @@
             return newBoard;
         }
 
-        public Cell GetCell(int row, int col)
-		{
-			return Cells[row, col];
-		}
+        public Cell GetCell(int rowIndex, int columnIndex)
+			=> Cells[rowIndex, columnIndex];
 
-        public IEnumerable<Cell> GetRow(int row)
+        public IEnumerable<Cell> GetRow(int rowIndex)
 		{
-			for (int c = 0; c < boardSize; c++)
+			for (int c = 0; c < BoardSize; c++)
 			{
-				yield return Cells[row, c];
+				yield return Cells[rowIndex, c];
 			}
 		}
 
-		public IEnumerable<Cell> GetColumn(int column)
+		public IEnumerable<Cell> GetColumn(int columnIndex)
 		{
-			for (int r = 0; r < boardSize; r++)
+			for (int r = 0; r < BoardSize; r++)
 			{
-				yield return Cells[r, column];
+				yield return Cells[r, columnIndex];
 			}
 		}
 
-		public IEnumerable<Cell> GetBox(int boxIndex)
+		public IEnumerable<Cell> GetBox(int subgridIndex)
 		{
-			int boardRoot = (int)Math.Sqrt(boardSize);
-			int startRow = (boxIndex / boardRoot) * boardRoot;
-			int startCol = (boxIndex % boardRoot) * boardRoot;
+			int boardRoot = (int)Math.Sqrt(BoardSize);
+			int startRow = (subgridIndex / boardRoot) * boardRoot;
+			int startCol = (subgridIndex % boardRoot) * boardRoot;
 			for (int r = startRow; r < startRow +boardRoot; r++)
 			{
 				for (int c = startCol; c < startCol + boardRoot; c++)

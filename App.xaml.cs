@@ -16,7 +16,7 @@ namespace SuperSudoku
 			SettingsService = new SettingsService();
             PuzzleService = new PuzzleService();
 			_ = PuzzleService.InitialiseAsync();
-            GameService = new GameService(PuzzleService);
+            GameService = new GameService(SettingsService, PuzzleService);
         }
 
         protected override Window CreateWindow(IActivationState? activationState)

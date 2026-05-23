@@ -27,7 +27,7 @@ namespace SuperSudoku
             var difficulty = _app.SettingsService.SelectedDifficulty;
             var puzzle = _app.GameService.StartGame(difficulty);
 
-            await Navigation.PushAsync(new GameView(puzzle));
+            await Navigation.PushAsync(new GameView(_app));
         }
     }
 }

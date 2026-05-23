@@ -2,7 +2,7 @@
 {
 	public class Cell
 	{
-        public int? Value;
+        public int? Value { get; set; }
         public string DisplayValue
         {
             get => Value?.ToString() ?? "";
@@ -10,7 +10,6 @@
         }
         public int Row { get; set; }
         public int Column { get; set; }
-        public bool IsGiven { get; set; }
 		public List<int> Notes { get; set; } = new List<int>(); // For use in later feature
 	}
 }
