@@ -19,15 +19,24 @@ namespace SuperSudoku
 
         private async void ButtonPlay_Clicked(object sender, EventArgs e)
         {
-            while (!_app.PuzzleService.IsReady)
-            {
-                await Task.Delay(100);
-            }
-
             var difficulty = _app.SettingsService.SelectedDifficulty;
-            var puzzle = _app.GameService.StartGame(difficulty);
 
-            await Navigation.PushAsync(new GameView(_app));
+            if (!_app.PuzzleService.HasPuzzle(difficulty))
+            {
+                await DisplayAlert(
+                    "No Puzzles", 
+                    "No puzzles available for the selected difficulty. Please check your settings.", 
+                    "OK"
+                );
+                return;
+            }
+            else 
+            {
+                _app.GameService.StartGame(difficulty);
+
+                await Navigation.PushAsync(new GameView(_app));
+
+            }
         }
     }
 }

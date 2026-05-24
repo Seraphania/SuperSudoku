@@ -36,7 +36,13 @@ namespace SuperSudoku.Services
 			}
 		}
 
-		public void LoadFromDisk() 
+		public bool HasPuzzle(Difficulty difficulty)
+		{
+			return GetActiveSlot(difficulty) != null ||
+				GetPuzzleList(difficulty).Count > 0;
+        }
+
+        public void LoadFromDisk() 
 		{
 			try
 			{
