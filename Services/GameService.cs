@@ -19,6 +19,30 @@ namespace SuperSudoku.Services
             _puzzleService = puzzleService;
         }
 
+        /// <summary>
+        /// Solve all but the last entry for testing. Comment method out before release.
+        /// </summary>
+        public void DebugFillBoard()
+        {
+            for (int row = 0; row < Board.BoardSize; row++)
+            {
+                for (int col = 0; col < Board.BoardSize; col++)
+                {
+                    // Leave final cell empty for testing
+                    if (row == Board.BoardSize - 1 &&
+                        col == Board.BoardSize - 1)
+                    {
+                        continue;
+                    }
+
+                    _activePuzzle.CurrentBoard.Cells[row, col].Value =
+                        _activePuzzle.Solution.Cells[row, col].Value;
+                }
+            }
+
+            SaveCurrentGame();
+        }
+
         public Puzzle StartGame(Difficulty difficulty)
         {
             _activePuzzle =
@@ -29,11 +53,13 @@ namespace SuperSudoku.Services
         public void RestartPuzzle()
         {
             _activePuzzle.CurrentBoard = _activePuzzle.StartingBoard.Clone();
+            _activePuzzle.IsCompleted = false;
             SaveCurrentGame();
         }
 
-        public Puzzle NewGame(Difficulty difficulty)
+        public Puzzle CompletePuzzleAndQueueNext(Difficulty difficulty)
         {
+            _activePuzzle.IsCompleted = true;
             _puzzleService.ClearActivePuzzle(difficulty);
 			_activePuzzle =
 				_puzzleService.GetOrCreateActivePuzzle(difficulty);

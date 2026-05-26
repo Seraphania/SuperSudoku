@@ -116,8 +116,11 @@ namespace SuperSudoku.Services
 
 		public Puzzle? GetActivePuzzle(Difficulty difficulty)
 		{
-			return GetActiveSlot(difficulty);
-		}
+			var active = GetActiveSlot(difficulty);
+            if (active != null && !active.IsCompleted)
+				return active;
+			return null;
+        }
 
 		public Puzzle GetOrCreateActivePuzzle(Difficulty difficulty) 
 		{

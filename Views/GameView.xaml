@@ -51,5 +51,22 @@
 					StrokeThickness="1"
 					ZIndex="0"/>
 		</Grid>
-	</VerticalStackLayout>
+        <Button x:Name="ButtonReset" 
+                Text="Reset" 
+                Margin="5,5,5,5" 
+                MaximumWidthRequest="150" 
+                Clicked="ButtonReset_clicked" />
+        
+        <Button x:Name="ButtonNewGame" 
+                Text="New Game" Margin="5,5,5,5" 
+                MaximumWidthRequest="150" 
+                Clicked="ButtonNewPuzzle_clicked" />
+       
+        <!-- Remove this before release! For testing only! -->
+        <Button x:Name="ButtonSolve" 
+                Text="Debug Solve" Margin="5,5,5,5" 
+                MaximumWidthRequest="150" 
+                Clicked="ButtonSolve_Clicked" />
+        
+    </VerticalStackLayout>
 </ContentPage>

@@ -16,7 +16,14 @@ public partial class GameView : ContentPage
 		BuildGrid();
 	}
 
-	private void BuildGrid()
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+
+        await CheckPuzzleStateAsync();
+    }
+
+    private void BuildGrid()
 	{
 		BuildGridDefenitions();
 
@@ -83,33 +90,35 @@ public partial class GameView : ContentPage
     }
 
     private async void OnCellTextChanged(object? sender, TextChangedEventArgs e)
-    
-	{
-		if (e.OldTextValue == e.NewTextValue)
-			return;
 
-        if (sender is not Entry entry)
+    {
+        if (e.OldTextValue == e.NewTextValue)
             return;
 
-        var cell = (Cell)entry.BindingContext;
-
-		if (_app.GameService.IsBoardFull())
-		{
-			if (_app.GameService.IsBoardSolved())
-			{
-				await HandleSolvedPuzzleAsync();				
-			}
-
-			else
-			{
-				await HandleIncorrectSolutionAsync();	
-			}
-		}
+        await CheckPuzzleStateAsync();
     }
 
-	private async Task HandleSolvedPuzzleAsync() 
+    private async Task CheckPuzzleStateAsync()
+    {
+		if (!_app.GameService.IsBoardFull())
+			return;
+
+        if (_app.GameService.IsBoardSolved())
+        {
+            await HandleSolvedPuzzleAsync();
+        }
+
+        else
+        {
+            await HandleIncorrectSolutionAsync();
+        }
+
+    }
+
+    private async Task HandleSolvedPuzzleAsync() 
 	{
 		// TODO: Stats View (not yet implemented)
+
 		string action = await DisplayActionSheet(
 			"Puzzle Solved!",
 			"Cancel", null,
@@ -122,7 +131,7 @@ public partial class GameView : ContentPage
 		{
 			case "Next Puzzle":
 			{
-				_app.GameService.NewGame(
+				_app.GameService.CompletePuzzleAndQueueNext(
 					_app.SettingsService.SelectedDifficulty);
 
 				var currentPage = this;
@@ -143,21 +152,30 @@ public partial class GameView : ContentPage
 
 				break;
 			}
-
 			case "View Stats":
+			{
 				await DisplayAlert(
 					"Nope",
-					"This feature is not yet implemented",
+					"This feature is not yet implemented, for now start a new game :P",
 					"OK"
 				);
+
+				_app.GameService.CompletePuzzleAndQueueNext(
+					_app.SettingsService.SelectedDifficulty);
+
+				var currentPage = this;
+
+				await Navigation.PushAsync(new GameView(_app)); // TODO: Replace with | await Navigation.PushAsync(new StatsView(_app)); | when StatsView is implemented.
+				Navigation.RemovePage(currentPage);
+
 				break;
+			}
 		}
 	}
 
 	private async Task HandleIncorrectSolutionAsync() 
 	{
-		// Message: Solution Incorrect Buttons: [Restart Puzzle] [New Puzzle] [Continue]
-		bool restart = await DisplayAlert(
+		var restart = await DisplayAlert(
 			"Incorrect Solution",
 			"The board is full, but the solution is incorrect.",
 			"Restart",
@@ -180,4 +198,30 @@ public partial class GameView : ContentPage
 		_app.GameService.SaveCurrentGame();
 		await Navigation.PopAsync();
 	}
+
+	private async void ButtonReset_clicked(object sender, EventArgs e)
+	{
+        _app.GameService.RestartPuzzle();
+
+        var currentPage = this;
+
+        await Navigation.PushAsync(new GameView(_app));
+        Navigation.RemovePage(currentPage);
+    }
+
+    private async void ButtonNewPuzzle_clicked(object sender, EventArgs e)
+    {
+        _app.GameService.CompletePuzzleAndQueueNext(
+            _app.SettingsService.SelectedDifficulty);
+
+        var currentPage = this;
+
+        await Navigation.PushAsync(new GameView(_app));
+        Navigation.RemovePage(currentPage);
+    }
+
+    private void ButtonSolve_Clicked(object sender, EventArgs e)
+    {
+		_app.GameService.DebugFillBoard();
+    }
 }
