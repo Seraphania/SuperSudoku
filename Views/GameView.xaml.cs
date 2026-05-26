@@ -16,7 +16,7 @@ public partial class GameView : ContentPage
 		BuildGrid();
 	}
 
-	void BuildGrid()
+	private void BuildGrid()
 	{
 		BuildGridDefenitions();
 
@@ -82,8 +82,9 @@ public partial class GameView : ContentPage
         return border;
     }
 
-    private void OnCellTextChanged(object? sender, TextChangedEventArgs e)
-    {
+    private async void OnCellTextChanged(object? sender, TextChangedEventArgs e)
+    
+	{
 		if (e.OldTextValue == e.NewTextValue)
 			return;
 
@@ -92,10 +93,89 @@ public partial class GameView : ContentPage
 
         var cell = (Cell)entry.BindingContext;
 
-        _app.GameService.CheckGameCompletion(cell);
+		if (_app.GameService.IsBoardFull())
+		{
+			if (_app.GameService.IsBoardSolved())
+			{
+				await HandleSolvedPuzzleAsync();				
+			}
+
+			else
+			{
+				await HandleIncorrectSolutionAsync();	
+			}
+		}
     }
 
-    private async void SwipeGestureRecognizer_SwipedRight(object? sender, SwipedEventArgs e)
+	private async Task HandleSolvedPuzzleAsync() 
+	{
+		// TODO: Stats View (not yet implemented)
+		string action = await DisplayActionSheet(
+			"Puzzle Solved!",
+			"Cancel", null,
+			"Next Puzzle",
+			"Restart Puzzle",
+			"View Stats"
+		);
+
+		switch (action)
+		{
+			case "Next Puzzle":
+			{
+				_app.GameService.NewGame(
+					_app.SettingsService.SelectedDifficulty);
+
+				var currentPage = this;
+
+				await Navigation.PushAsync(new GameView(_app));
+				Navigation.RemovePage(currentPage);
+
+				break;
+			}
+			case "Restart Puzzle":
+			{
+				_app.GameService.RestartPuzzle();
+
+				var currentPage = this;
+
+				await Navigation.PushAsync(new GameView(_app));
+				Navigation.RemovePage(currentPage);
+
+				break;
+			}
+
+			case "View Stats":
+				await DisplayAlert(
+					"Nope",
+					"This feature is not yet implemented",
+					"OK"
+				);
+				break;
+		}
+	}
+
+	private async Task HandleIncorrectSolutionAsync() 
+	{
+		// Message: Solution Incorrect Buttons: [Restart Puzzle] [New Puzzle] [Continue]
+		bool restart = await DisplayAlert(
+			"Incorrect Solution",
+			"The board is full, but the solution is incorrect.",
+			"Restart",
+			"Continue"
+		);
+
+		if (restart)
+		{
+			_app.GameService.RestartPuzzle();
+
+			var currentPage = this;
+
+			await Navigation.PushAsync(new GameView(_app));
+			Navigation.RemovePage(currentPage);
+		}
+	}
+
+	private async void SwipeGestureRecognizer_SwipedRight(object? sender, SwipedEventArgs e)
 	{
 		_app.GameService.SaveCurrentGame();
 		await Navigation.PopAsync();

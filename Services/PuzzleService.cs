@@ -136,6 +136,7 @@ namespace SuperSudoku.Services
 			list.RemoveAt(0);
 
 			SetActiveSlot(difficulty, puzzle);
+			_ = EnsurePuzzleStockAsync();
 			return puzzle;
 		}
 

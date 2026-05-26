@@ -25,7 +25,8 @@ namespace SuperSudoku
             {
                 await DisplayAlert(
                     "No Puzzles", 
-                    "No puzzles available for the selected difficulty. Please check your settings.", 
+                    "No puzzles available for the selected difficulty. Please check your settings.\n" +
+                    "If the issue persists, please check your network connection", 
                     "OK"
                 );
                 return;

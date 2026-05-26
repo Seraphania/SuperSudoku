@@ -26,26 +26,27 @@ namespace SuperSudoku.Services
             return _activePuzzle;
         }
 
-        public void RestartGame()
+        public void RestartPuzzle()
         {
             _activePuzzle.CurrentBoard = _activePuzzle.StartingBoard.Clone();
             SaveCurrentGame();
         }
+
+        public Puzzle NewGame(Difficulty difficulty)
+        {
+            _puzzleService.ClearActivePuzzle(difficulty);
+			_activePuzzle =
+				_puzzleService.GetOrCreateActivePuzzle(difficulty);
+            SaveCurrentGame();
+            return _activePuzzle;
+		}
 
         public void SaveCurrentGame()
         {
             _puzzleService.SaveToDisk();
         }
 
-        public bool CheckGameCompletion(Cell cell)
-        {
-            if (!IsBoardFull())
-                return false;
-
-            return (IsBoardSolved());
-        }
-
-        private bool IsBoardFull()
+        public bool IsBoardFull()
         {
             foreach (Cell cell in _activePuzzle.CurrentBoard.Cells)
             {
@@ -55,7 +56,7 @@ namespace SuperSudoku.Services
             return true;
         }
 
-        private bool IsBoardSolved()
+        public bool IsBoardSolved()
         {
             for (int row = 0; row < 9; row++)
             {
