@@ -7,6 +7,7 @@ namespace SuperSudoku
         public SettingsService SettingsService { get; set; }
         public PuzzleService PuzzleService { get; set; }
         public GameService GameService { get; set; }
+        public StatisticsService StatisticsService { get; set; }
 
         public App()
         {
@@ -16,6 +17,7 @@ namespace SuperSudoku
 			SettingsService = new SettingsService();
             PuzzleService = new PuzzleService();
             GameService = new GameService(SettingsService, PuzzleService);
+            StatisticsService = new StatisticsService();
 
             _ = PuzzleService.InitialiseAsync();
         }

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SuperSudoku.Views.StatisticsView"
+             Title="StatisticsView">
+    <VerticalStackLayout>
+        <VerticalStackLayout.GestureRecognizers>
+            <SwipeGestureRecognizer 
+                Direction="Right" 
+				Swiped="SwipeGestureRecognizer_SwipedRight" />
+        </VerticalStackLayout.GestureRecognizers>
+
+        <Label 
+            x:Name="LabelEasySolvedCount" />
+        <Label 
+            x:Name="LabelEasyFastestTime" />
+        <Label 
+            x:Name="LabelMediumSolvedCount" />
+        <Label 
+            x:Name="LabelMediumFastestTime" />
+        <Label 
+            x:Name="LabelHardSolvedCount" />
+        <Label 
+            x:Name="LabelHardFastestTime" />
+    </VerticalStackLayout>
+</ContentPage>

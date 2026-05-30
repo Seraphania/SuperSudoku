@@ -19,7 +19,7 @@ public partial class GameView : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-
+        // Get Elapsed time from GameService and start timer
         await CheckPuzzleStateAsync();
     }
 
@@ -117,8 +117,6 @@ public partial class GameView : ContentPage
 
     private async Task HandleSolvedPuzzleAsync() 
 	{
-		// TODO: Stats View (not yet implemented)
-
 		string action = await DisplayActionSheet(
 			"Puzzle Solved!",
 			"Cancel", null,
@@ -154,18 +152,12 @@ public partial class GameView : ContentPage
 			}
 			case "View Stats":
 			{
-				await DisplayAlert(
-					"Nope",
-					"This feature is not yet implemented, for now start a new game :P",
-					"OK"
-				);
-
 				_app.GameService.CompletePuzzleAndQueueNext(
 					_app.SettingsService.SelectedDifficulty);
 
 				var currentPage = this;
 
-				await Navigation.PushAsync(new GameView(_app)); // TODO: Replace with | await Navigation.PushAsync(new StatsView(_app)); | when StatsView is implemented.
+				await Navigation.PushAsync(new StatisticsView(_app));
 				Navigation.RemovePage(currentPage);
 
 				break;

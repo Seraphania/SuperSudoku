@@ -148,21 +148,37 @@ namespace SuperSudoku.Services
 			SetActiveSlot(difficulty, null);
 		}
 
-		private List<Puzzle> GetPuzzleList(Difficulty difficulty) => difficulty switch
+		private List<Puzzle> GetPuzzleList(Difficulty difficulty)
 		{
-			Difficulty.Easy => _puzzleBox.EasyPuzzles,
-			Difficulty.Medium => _puzzleBox.MediumPuzzles,
-			Difficulty.Hard => _puzzleBox.HardPuzzles,
-			_ => throw new ArgumentOutOfRangeException(nameof(difficulty))
-		};
+			switch (difficulty)
+			{
+				case Difficulty.Easy:
+					return _puzzleBox.EasyPuzzles;
+				case Difficulty.Medium:
+					return _puzzleBox.MediumPuzzles;
+				case Difficulty.Hard:
+					return _puzzleBox.HardPuzzles;
+				default:
+					throw new ArgumentOutOfRangeException(
+						nameof(difficulty));
+            }
+		}
 
-		private Puzzle? GetActiveSlot(Difficulty difficulty) => difficulty switch
+		private Puzzle? GetActiveSlot(Difficulty difficulty)
 		{
-			Difficulty.Easy => _puzzleBox.ActiveEasyPuzzle,
-			Difficulty.Medium => _puzzleBox.ActiveMediumPuzzle,
-			Difficulty.Hard => _puzzleBox.ActiveHardPuzzle,
-			_ => throw new ArgumentOutOfRangeException(nameof(difficulty))
-		};
+			switch (difficulty)
+			{
+				case Difficulty.Easy:
+					return _puzzleBox.ActiveEasyPuzzle;
+				case Difficulty.Medium:
+					return _puzzleBox.ActiveMediumPuzzle;
+				case Difficulty.Hard:
+					return _puzzleBox.ActiveHardPuzzle;
+				default:
+					throw new ArgumentOutOfRangeException(
+						nameof(difficulty));
+			}
+		}
 
 		private void SetActiveSlot(Difficulty difficulty, Puzzle? puzzle)
 		{

@@ -20,7 +20,9 @@ namespace SuperSudoku.Services
         }
 
         /// <summary>
-        /// Solve all but the last entry for testing. Comment method out before release.
+        /// REMOVE THIS METHOD!
+        /// Solves the current puzzle by copying the solution into the currentBoard.
+        /// For testing UI behaviour only.
         /// </summary>
         public void DebugFillBoard()
         {
@@ -28,13 +30,6 @@ namespace SuperSudoku.Services
             {
                 for (int col = 0; col < Board.BoardSize; col++)
                 {
-                    // Leave final cell empty for testing
-                    if (row == Board.BoardSize - 1 &&
-                        col == Board.BoardSize - 1)
-                    {
-                        continue;
-                    }
-
                     _activePuzzle.CurrentBoard.Cells[row, col].Value =
                         _activePuzzle.Solution.Cells[row, col].Value;
                 }
