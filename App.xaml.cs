@@ -16,7 +16,7 @@ namespace SuperSudoku
 			Directory.CreateDirectory(AppPaths.AppDirectory);
 			SettingsService = new SettingsService();
             PuzzleService = new PuzzleService();
-            GameService = new GameService(SettingsService, PuzzleService);
+            GameService = new GameService(PuzzleService);
             StatisticsService = new StatisticsService();
 
             _ = PuzzleService.InitialiseAsync();

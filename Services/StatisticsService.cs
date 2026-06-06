@@ -71,7 +71,5 @@ namespace SuperSudoku.Services
                         nameof(difficulty));
             }
         }
-
-
     }
 }

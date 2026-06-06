@@ -2,7 +2,7 @@
 {
 	public static class AppPaths
 	{
-		// For PC Saves to: C:\Users\<User>\AppData\Local\User Name\com.companyname.supersudoku\Data TODO: remove this later
+		// For PC Saves to: C:\Users\<User>\AppData\Local\User Name\SuperSudoku\Data\SuperSudoku TODO: remove this later
 		public static readonly string AppDirectory =
 			 Path.Combine(
 				 FileSystem.AppDataDirectory,

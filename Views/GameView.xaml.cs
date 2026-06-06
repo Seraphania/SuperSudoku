@@ -100,7 +100,7 @@ public partial class GameView : ContentPage
 
     private async Task CheckPuzzleStateAsync()
     {
-		if (!_app.GameService.IsBoardFull())
+        if (!_app.GameService.IsBoardFull())
 			return;
 
         if (_app.GameService.IsBoardSolved())
@@ -117,7 +117,16 @@ public partial class GameView : ContentPage
 
     private async Task HandleSolvedPuzzleAsync() 
 	{
-		string action = await DisplayActionSheet(
+        if (_app.GameService.ActivePuzzle.IsCompleted)
+            return;
+
+		_app.GameService.ActivePuzzle.IsCompleted = true;
+
+        _app.StatisticsService.RecordPuzzleCompletion(
+			_app.GameService.ActivePuzzle.Difficulty,
+			_app.GameService.ActivePuzzle.ElapsedTime);
+
+        string action = await DisplayActionSheet(
 			"Puzzle Solved!",
 			"Cancel", null,
 			"Next Puzzle",

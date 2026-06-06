@@ -5,17 +5,14 @@ namespace SuperSudoku.Services
 {
     public class GameService
     {
-        private SettingsService _settingsService;
         private PuzzleService _puzzleService;
         private Puzzle _activePuzzle = null!;
         public Puzzle ActivePuzzle => _activePuzzle;
 
         public GameService(
-            SettingsService settingsService,
             PuzzleService puzzleService
         )
         {
-            _settingsService = settingsService;
             _puzzleService = puzzleService;
         }
 
@@ -34,7 +31,6 @@ namespace SuperSudoku.Services
                         _activePuzzle.Solution.Cells[row, col].Value;
                 }
             }
-
             SaveCurrentGame();
         }
 
