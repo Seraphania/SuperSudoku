@@ -7,8 +7,9 @@ namespace SuperSudoku.Views;
 public partial class GameView : ContentPage
 {
 	private readonly App _app;
+    private IDispatcherTimer? _timer;
 
-	public GameView(App app)
+    public GameView(App app)
 	{
 		InitializeComponent();
         _app = app;
@@ -19,8 +20,38 @@ public partial class GameView : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        // Get Elapsed time from GameService and start timer
+		StartTimer();
         await CheckPuzzleStateAsync();
+    }
+
+	protected override void OnDisappearing()
+	{
+		base.OnDisappearing();
+		_timer?.Stop();
+		_timer = null;
+
+        _app.GameService.SaveCurrentGame();
+    }
+
+    private void StartTimer()
+    {
+        if (_timer != null)
+            return;
+
+        _timer = Dispatcher.CreateTimer();
+        _timer.Interval = TimeSpan.FromSeconds(1);
+
+        _timer.Tick += (_, _) =>
+        {
+            _app.GameService.ActivePuzzle.ElapsedTime +=
+                TimeSpan.FromSeconds(1);
+
+            LabelElapsedTime.Text =
+                _app.GameService.ActivePuzzle.ElapsedTime
+                    .ToString(@"mm\:ss");
+        };
+
+        _timer.Start();
     }
 
     private void BuildGrid()
@@ -120,7 +151,10 @@ public partial class GameView : ContentPage
         if (_app.GameService.ActivePuzzle.IsCompleted)
             return;
 
+		_timer?.Stop();
 		_app.GameService.ActivePuzzle.IsCompleted = true;
+
+		_app.GameService.SaveCurrentGame();
 
         _app.StatisticsService.RecordPuzzleCompletion(
 			_app.GameService.ActivePuzzle.Difficulty,
@@ -196,7 +230,6 @@ public partial class GameView : ContentPage
 
 	private async void SwipeGestureRecognizer_SwipedRight(object? sender, SwipedEventArgs e)
 	{
-		_app.GameService.SaveCurrentGame();
 		await Navigation.PopAsync();
 	}
 
@@ -207,6 +240,7 @@ public partial class GameView : ContentPage
         var currentPage = this;
 
         await Navigation.PushAsync(new GameView(_app));
+        _app.GameService.ActivePuzzle.ElapsedTime = TimeSpan.Zero;
         Navigation.RemovePage(currentPage);
     }
 

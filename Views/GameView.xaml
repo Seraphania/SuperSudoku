@@ -12,7 +12,7 @@
 
         <!-- Add Timer -->
 		<Label
-            x:Name="Label_ElapsedTime" 
+            x:Name="LabelElapsedTime" 
             Text="Elapsed Time ..."
             HorizontalOptions="Center" 
             FontSize="Small" 
