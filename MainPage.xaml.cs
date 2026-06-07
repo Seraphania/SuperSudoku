@@ -17,6 +17,16 @@ namespace SuperSudoku
             await Navigation.PushAsync(new SettingsView(_app));
         }
 
+        private async void ButtonHelp_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new HelpView(_app));
+        }
+
+        private async void ButtonStats_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new StatisticsView(_app));
+        }
+
         private async void ButtonPlay_Clicked(object sender, EventArgs e)
         {
             var difficulty = _app.SettingsService.SelectedDifficulty;

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SuperSudoku.Views.HelpView"
+             Title="Help">
+    <VerticalStackLayout>
+        <CarouselView
+            x:Name="CarouselViewHelp"
+            IndicatorView="IndicatorViewHelp">
+            <CarouselView.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>
+                        Welcome to Super Sudoku! 
+                        A free Sudoku game that makes use of the Dosuku Sudoku API.
+                        
+                        First time playing Sudoku? 
+                        Scroll on for information on how to play...
+                    </x:String>
+                    <x:String>
+                        The objective is to fill a 9x9 grid with the digits 1-9.
+                    </x:String>
+                    <x:String>
+                        Each row, column and each of the nine 3x3 subgrids must contain then numbers 1-9 exactly once.
+                    </x:String>
+                    <x:String>
+                        To add a number, select an empty cell and tap the number you wish to enter from the number buttons.
+                    </x:String>
+                    <!--
+                    <x:String>
+                        Double tapping a Number button will lock that number. 
+                        It will be written into each cell that is tapped.
+                        Tap the button again, or any other to unlock it.
+                    </x:String>
+                    -->
+                    <x:String>
+                        Use the settings page to adjust the difficulty level. 
+                        If timers stress you out, you can turn that off! 
+                        
+                        ...Or leave it on if you want to race the clock!
+                    </x:String>
+                    <x:String>
+                        You can visit the stats page to see your best times and how many puzzles you have beaten.
+                    </x:String>
+                    <x:String>
+                        Good luck, and have fun playing Super Sudoku!
+                    </x:String>
+                </x:Array>
+            </CarouselView.ItemsSource>
+
+            <CarouselView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Padding="20" Spacing="15">
+                        <Label Text="Super Sudoku Help" 
+                               FontSize="24" 
+                               FontAttributes="Bold" 
+                               HorizontalOptions="Center" />
+                        
+                        <Label Text="{Binding}" 
+                               FontSize="16" 
+                               HorizontalOptions="Center" 
+                               LineBreakMode="WordWrap" />
+                    </StackLayout>
+                </DataTemplate>
+            </CarouselView.ItemTemplate>
+        </CarouselView>
+        <IndicatorView x:Name="IndicatorViewHelp" HorizontalOptions="Center" Margin="0,10,0,0" />
+        <Button x:Name="ButtonVisitDosuku"
+                Text="Visit Dosuku"
+                Clicked="ButtonVisitDosuku_Clicked"/>
+        
+        <Button x:Name="ButtonVisitGithub" 
+                Text="Visit github"
+                Clicked="ButtonVisitGithub_Clicked" />
+        <Button x:Name="ButtonHome" 
+                Text="Back to Menu" 
+                HorizontalOptions="Center" 
+                Margin="0,20,0,0" 
+                Clicked="ButtonHome_Clicked" />
+    </VerticalStackLayout>
+</ContentPage>

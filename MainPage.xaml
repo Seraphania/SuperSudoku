@@ -4,8 +4,31 @@
              x:Class="SuperSudoku.MainPage">
 
     <VerticalStackLayout>
-        <Button x:Name="ButtonSettings" Text="Settings" Margin="5,5,5,5" MaximumWidthRequest="150" Clicked="ButtonSettings_Clicked" />
-        <Button x:Name="ButtonPlay" Text="Play!" Margin="5,5,5,5" MaximumWidthRequest="150" Clicked="ButtonPlay_Clicked" />
+        <Button x:Name="ButtonSettings" 
+                Text="Settings" 
+                Margin="5,5,5,5" 
+                MaximumWidthRequest="150" 
+                Clicked="ButtonSettings_Clicked" />
+
+        <Button x:Name="ButtonHelp" 
+                Text="Help" 
+                Margin="5,5,5,5" 
+                MaximumWidthRequest="150" 
+                Clicked="ButtonHelp_Clicked" />
+
+        <Button x:Name="ButtonStats" 
+                Text="Player Stats" 
+                Margin="5,5,5,5" 
+                MaximumWidthRequest="150" 
+                Clicked="ButtonStats_Clicked" />
+
+        <Button x:Name="ButtonPlay" 
+                Text="Play!" 
+                Margin="5,5,5,5" 
+                MaximumWidthRequest="150" 
+                Clicked="ButtonPlay_Clicked" />
+        
+        <!-- PlaceHolder for Style Colours 
 		<FlexLayout Direction="Column"
 					AlignItems="Center"
 					JustifyContent="SpaceEvenly">
@@ -17,7 +40,8 @@
                 <Label Text="Text Primary: Warm White" BackgroundColor="#FCFCF5" TextColor="#1C2518" />
                 <Label Text="Text Secondary: Stone Grey" BackgroundColor="#E2E2DC" />
                 <Label Text="Error/Conflict: Muted Terracotta" BackgroundColor="#BB6644" />
-		</FlexLayout>
+		</FlexLayout> 
+        -->
     </VerticalStackLayout>
 
 </ContentPage>
