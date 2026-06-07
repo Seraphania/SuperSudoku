@@ -19,16 +19,14 @@
             FontSize="Small" 
             FontAttributes="Italic"/>
 
-        
-
+		<!-- Overlay Grid to Contain Board and Borders -->
         <Grid x:Name="GridBoard"
 			  ColumnDefinitions="*,*,*,*,*,*,*,*,*"
 			  RowDefinitions="*,*,*,*,*,*,*,*,*"
 			  HorizontalOptions="Center"
 			  VerticalOptions="Center"
 			  WidthRequest="360"
-			  HeightRequest="360"
-			  >
+			  HeightRequest="360">
 
 			<!-- Sudoku cells -->
 			<Grid x:Name="GridSudoku"
@@ -58,6 +56,20 @@
 					StrokeThickness="1"
 					ZIndex="0"/>
 		</Grid>
+
+        <VerticalStackLayout>
+            <Button Text="1" Clicked="NumberButton_Clicked"/>
+            <Button Text="2" Clicked="NumberButton_Clicked"/>
+            <Button Text="3" Clicked="NumberButton_Clicked"/>
+            <Button Text="4" Clicked="NumberButton_Clicked"/>
+            <Button Text="5" Clicked="NumberButton_Clicked"/>
+            <Button Text="6" Clicked="NumberButton_Clicked"/>
+            <Button Text="7" Clicked="NumberButton_Clicked"/>
+            <Button Text="8" Clicked="NumberButton_Clicked"/>
+            <Button Text="9" Clicked="NumberButton_Clicked"/>
+            <Button x:Name="ButtonClearCell" Text="X" Clicked="ButtonClearCell_Clicked"/>
+        </VerticalStackLayout>
+
         <Button x:Name="ButtonReset" 
                 Text="Reset" 
                 Margin="5,5,5,5" 

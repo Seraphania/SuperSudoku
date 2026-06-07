@@ -8,6 +8,7 @@ public partial class GameView : ContentPage
 {
 	private readonly App _app;
     private IDispatcherTimer? _timer;
+	private Cell? _selectedCell;
 
     public GameView(App app)
 	{
@@ -59,6 +60,12 @@ public partial class GameView : ContentPage
         _timer.Start();
     }
 
+    private void OnCellFocused(object? sender, FocusEventArgs e)
+    {
+        var entry = (Entry)sender!;
+        _selectedCell = (Cell)entry.BindingContext;
+    }
+
     private void BuildGrid()
 	{
 		BuildGridDefenitions();
@@ -107,6 +114,7 @@ public partial class GameView : ContentPage
 			Entry.TextProperty,
 			new Binding("DisplayValue", BindingMode.TwoWay));
         cell.TextChanged += OnCellTextChanged; 
+        cell.Focused += OnCellFocused;
 
         if (startingCell.Value != null) 
 		{
@@ -263,5 +271,22 @@ public partial class GameView : ContentPage
     private void ButtonSolve_Clicked(object sender, EventArgs e)
     {
 		_app.GameService.DebugFillBoard();
+    }
+
+    private void NumberButton_Clicked(object sender, EventArgs e)
+    {
+		if (_selectedCell == null)
+			return;
+
+		var button = (Button)sender!;
+		_selectedCell.Value = int.Parse(button.Text);
+    }
+
+    private void ButtonClearCell_Clicked(object sender, EventArgs e)
+    {
+		if (_selectedCell == null)
+			return;
+
+		_selectedCell.Value = null;
     }
 }
