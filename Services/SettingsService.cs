@@ -14,6 +14,17 @@ namespace SuperSudoku.Services
 				SaveToDisk();
 			}
 		}
+		public bool ShowTimer 
+		{
+			get
+			{
+				return Preferences.Get("ShowTimer", true);
+            }
+            set
+            {
+                Preferences.Set("ShowTimer", value);
+            }
+		}
 
 		public SettingsService() 
 		{
@@ -41,5 +52,7 @@ namespace SuperSudoku.Services
 				_settings
 			);
 		}
+
+
 	}
 }

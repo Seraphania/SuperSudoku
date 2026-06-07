@@ -13,8 +13,10 @@ public partial class GameView : ContentPage
 	{
 		InitializeComponent();
         _app = app;
+		LabelElapsedTime.IsVisible = _app.SettingsService.ShowTimer;
+		LabelDifficultySetting.Text = $"Difficulty: {_app.SettingsService.SelectedDifficulty}";
 
-		BuildGrid();
+        BuildGrid();
 	}
 
     protected override async void OnAppearing()
@@ -35,6 +37,9 @@ public partial class GameView : ContentPage
 
     private void StartTimer()
     {
+        LabelElapsedTime.Text = 
+			$"Elapsed Time: {_app.GameService.ActivePuzzle.ElapsedTime.ToString(@"mm\:ss")}";
+
         if (_timer != null)
             return;
 
@@ -46,9 +51,9 @@ public partial class GameView : ContentPage
             _app.GameService.ActivePuzzle.ElapsedTime +=
                 TimeSpan.FromSeconds(1);
 
-            LabelElapsedTime.Text =
-                _app.GameService.ActivePuzzle.ElapsedTime
-                    .ToString(@"mm\:ss");
+            LabelElapsedTime.Text = $"Elapsed Time: " +
+				$"{_app.GameService.ActivePuzzle.ElapsedTime
+                    .ToString(@"mm\:ss")}";
         };
 
         _timer.Start();

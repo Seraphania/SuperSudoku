@@ -15,7 +15,8 @@ public partial class SettingsView : ContentPage
 
 		PickerDifficulty.SelectedIndex = 
 			(int)_app.SettingsService.SelectedDifficulty;
-	}
+		SwitchShowTimer.IsToggled = _app.SettingsService.ShowTimer;
+    }
 
 	private void UpdatePickerItems()
 	{
@@ -37,5 +38,10 @@ public partial class SettingsView : ContentPage
 
 		_app.SettingsService.SelectedDifficulty =
 			(Difficulty)PickerDifficulty.SelectedIndex;
+    }
+
+    private void SwitchShowTimer_Toggled(object sender, ToggledEventArgs e)
+    {
+        _app.SettingsService.ShowTimer = e.Value;
     }
 }

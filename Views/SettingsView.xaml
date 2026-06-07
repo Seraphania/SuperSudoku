@@ -4,6 +4,14 @@
              x:Class="SuperSudoku.Views.SettingsView"
              Title="SettingsView">
     <VerticalStackLayout>
+        <Grid ColumnDefinitions="*, Auto">
+            <Label Text="Show Timer" 
+                   Grid.Column="0" />
+            <Switch x:Name="SwitchShowTimer" 
+                    Grid.Column="1"
+                    Toggled="SwitchShowTimer_Toggled" />
+
+        </Grid>
         <Label Text="Select Difficulty" FontSize="18" />
 		<Picker x:Name="PickerDifficulty"
                 Title="Difficulty"

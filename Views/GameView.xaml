@@ -10,17 +10,18 @@
 				Swiped="SwipeGestureRecognizer_SwipedRight" />
 		</VerticalStackLayout.GestureRecognizers>
 
-        <!-- Add Timer -->
+        <Label x:Name="LabelDifficultySetting" />
+        
+        <!-- Timer -->
 		<Label
             x:Name="LabelElapsedTime" 
-            Text="Elapsed Time ..."
             HorizontalOptions="Center" 
             FontSize="Small" 
-            FontAttributes="Italic"/> 
+            FontAttributes="Italic"/>
 
-		<!--  <Label x:Name="LabelDifficultySetting" Text="{Binding SelectedDifficulty}"/> TODO: Work Out Binding -->
+        
 
-		<Grid x:Name="GridBoard"
+        <Grid x:Name="GridBoard"
 			  ColumnDefinitions="*,*,*,*,*,*,*,*,*"
 			  RowDefinitions="*,*,*,*,*,*,*,*,*"
 			  HorizontalOptions="Center"
