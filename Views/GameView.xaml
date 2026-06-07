@@ -1,91 +1,214 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"           
-             x:Class="SuperSudoku.Views.GameView"
-             Title="GameView">
+             x:Class="SuperSudoku.Views.GameView">
 
-	<VerticalStackLayout  >
-		<VerticalStackLayout.GestureRecognizers>
-			<SwipeGestureRecognizer Direction="Right" 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <!-- Grid Orientation Style -->
+            <Style TargetType="Grid" x:Key="GridOrientationStyle" >
+                <Setter  Property="VisualStateManager.VisualStateGroups">
+                    <VisualStateGroupList>
+                        <VisualStateGroup>
+                            <VisualState x:Name="Portrait">
+                                <VisualState.StateTriggers>
+                                    <OrientationStateTrigger Orientation="Portrait" />
+                                </VisualState.StateTriggers>
+                                <VisualState.Setters>
+                                    <Setter TargetName="GridHeader" Property="Grid.Row" Value="0" />
+                                    <Setter TargetName="GridBoard" Property="Grid.Row" Value="1" />
+                                    <Setter TargetName="GridNumberPad" Property="Grid.Row" Value="2" />
+                                    <Setter TargetName="GridNavigationButtons" Property="Grid.Row" Value="3" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Landscape">
+                                <VisualState.StateTriggers>
+                                    <OrientationStateTrigger Orientation="Landscape" />
+                                </VisualState.StateTriggers>
+                                <VisualState.Setters>
+                                    <Setter TargetName="GridHeader" Property="Grid.Row" Value="0" />
+                                    <Setter TargetName="GridHeader" Property="Grid.Column" Value="1" />
+
+                                    <Setter TargetName="GridBoard" Property="Grid.Row" Value="0" />
+                                    <Setter TargetName="GridBoard" Property="Grid.RowSpan" Value="3" />
+                                    <Setter TargetName="GridBoard" Property="Grid.Column" Value="0" />
+                                    <Setter TargetName="GridBoard" Property="Grid.MaximumHeightRequest" Value="280" />
+                                    <Setter TargetName="GridBoard" Property="Grid.MaximumWidthRequest" Value="280" />
+                                    
+                                    <Setter TargetName="GridNumberPad" Property="Grid.Row" Value="1" />
+                                    <Setter TargetName="GridNumberPad" Property="Grid.Column" Value="1" />
+                                    
+                                    <Setter TargetName="GridNavigationButtons" Property="Grid.Row" Value="2" />
+                                    <Setter TargetName="GridNavigationButtons" Property="Grid.Column" Value="1" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </Setter>
+            </Style>
+            <!-- Portrait Orientation Style -->
+            <Style TargetType="StackLayout" x:Key="StackOrientationStyle" >
+                <Setter  Property="VisualStateManager.VisualStateGroups">
+                    <VisualStateGroupList>
+                        <VisualStateGroup>
+                            <VisualState x:Name="Portrait">
+                                <VisualState.StateTriggers>
+                                    <OrientationStateTrigger Orientation="Portrait" />
+                                </VisualState.StateTriggers>
+                                <VisualState.Setters>
+                                    <Setter Property="Orientation" Value="Vertical" />
+                                    
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Landscape">
+                                <VisualState.StateTriggers>
+                                    <OrientationStateTrigger Orientation="Landscape" />
+                                </VisualState.StateTriggers>
+                                <VisualState.Setters>
+                                    <Setter Property="Orientation" Value="Horizontal" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid x:Name="GridLayoutRoot" 
+          ColumnDefinitions="*,Auto"
+          RowDefinitions="Auto,Auto,Auto,*"
+          Style="{StaticResource GridOrientationStyle}" >
+
+        <Grid.GestureRecognizers>
+            <SwipeGestureRecognizer Direction="Right" 
 				Swiped="SwipeGestureRecognizer_SwipedRight" />
-		</VerticalStackLayout.GestureRecognizers>
+        </Grid.GestureRecognizers>
 
-        <Label x:Name="LabelDifficultySetting" />
-        
-        <!-- Timer -->
-		<Label
-            x:Name="LabelElapsedTime" 
-            HorizontalOptions="Center" 
-            FontSize="Small" 
-            FontAttributes="Italic"/>
+        <Grid x:Name="GridHeader">
+            
+            <StackLayout Style="{StaticResource StackOrientationStyle}"
+                         Orientation="Horizontal">
+                <Label x:Name="LabelDifficultySetting"
+                       HorizontalOptions="Center"
+                       FontSize="Small" 
+                       FontAttributes="Italic"
+                       Padding="0,0,0,10" 
+                       Margin="5,5,5,5"/>
 
-		<!-- Overlay Grid to Contain Board and Borders -->
+                <!-- Timer -->
+                <Label x:Name="LabelElapsedTime" 
+                       HorizontalOptions="Center" 
+                       FontSize="Medium"
+                       Padding="0,0,0,5" 
+                       Margin="5,5,5,5"/>
+            </StackLayout>
+        </Grid>
+
+        <!-- Overlay Grid to Contain Board and Borders -->
         <Grid x:Name="GridBoard"
+              HorizontalOptions="Center"
+			  VerticalOptions="Center"
 			  ColumnDefinitions="*,*,*,*,*,*,*,*,*"
 			  RowDefinitions="*,*,*,*,*,*,*,*,*"
-			  HorizontalOptions="Center"
-			  VerticalOptions="Center"
-			  WidthRequest="360"
-			  HeightRequest="360">
+              Margin="0,0,20,20">
 
 			<!-- Sudoku cells -->
 			<Grid x:Name="GridSudoku"
 				  Grid.ColumnSpan="9"
 				  Grid.RowSpan="9"
+                  HorizontalOptions="Center"
+				  VerticalOptions="Center"
 				  RowSpacing="0"
 				  ColumnSpacing="0"
-				  ZIndex="2" />
-
+				  ZIndex="0" />
+            
+            <!-- Outside border -->
 			<Border Grid.ColumnSpan="9" 
-					Grid.RowSpan="9" 
-					Stroke="BlanchedAlmond" 
+					Grid.RowSpan="9"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Fill"
+					Stroke="Black" 
+					StrokeThickness="3"
+					ZIndex="2"/>
+
+            <!-- Column inner border -->
+            <Border Grid.Column="3" 
+					Grid.ColumnSpan="3" 
+					Grid.RowSpan="9"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Fill"
+					Stroke="Black" 
 					StrokeThickness="3"
 					ZIndex="1"/>
-			
-			<Border Grid.Column="3" 
-					Grid.ColumnSpan="3" 
-					Grid.RowSpan="9" 
-					Stroke="MintCream" 
-					StrokeThickness="1"
-					ZIndex="0"/>
-
-			<Border Grid.Row="3" 
+            
+            <!-- Row inner border -->
+            <Border Grid.Row="3" 
 					Grid.RowSpan="3" 
 					Grid.ColumnSpan="9" 
-					Stroke="MintCream" 
-					StrokeThickness="1"
-					ZIndex="0"/>
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Fill"
+					Stroke="Black" 
+					StrokeThickness="3"
+					ZIndex="1"/>
 		</Grid>
 
-        <VerticalStackLayout>
-            <Button Text="1" Clicked="NumberButton_Clicked"/>
-            <Button Text="2" Clicked="NumberButton_Clicked"/>
-            <Button Text="3" Clicked="NumberButton_Clicked"/>
-            <Button Text="4" Clicked="NumberButton_Clicked"/>
-            <Button Text="5" Clicked="NumberButton_Clicked"/>
-            <Button Text="6" Clicked="NumberButton_Clicked"/>
-            <Button Text="7" Clicked="NumberButton_Clicked"/>
-            <Button Text="8" Clicked="NumberButton_Clicked"/>
-            <Button Text="9" Clicked="NumberButton_Clicked"/>
-            <Button x:Name="ButtonClearCell" Text="X" Clicked="ButtonClearCell_Clicked"/>
-        </VerticalStackLayout>
+        <!-- Number Buttons -->
+        <Grid x:Name="GridNumberPad"
+              ColumnDefinitions="*,*,*,*,*"
+              RowDefinitions="*,*"
+              HorizontalOptions="Center"
+              VerticalOptions="Center"
+              Margin="20,0,20,20">
 
-        <Button x:Name="ButtonReset" 
-                Text="Reset" 
-                Margin="5,5,5,5" 
-                MaximumWidthRequest="150" 
-                Clicked="ButtonReset_clicked" />
-        
-        <Button x:Name="ButtonNewGame" 
-                Text="New Game" Margin="5,5,5,5" 
-                MaximumWidthRequest="150" 
-                Clicked="ButtonNewPuzzle_clicked" />
-       
-        <!-- Remove this before release! For testing only! -->
-        <Button x:Name="ButtonSolve" 
-                Text="Debug Solve" Margin="5,5,5,5" 
-                MaximumWidthRequest="150" 
-                Clicked="ButtonSolve_Clicked" />
-        
-    </VerticalStackLayout>
+            <Button Grid.Row="0" Grid.Column="0" Text="1" Margin="5,5,5,5" Clicked="NumberButton_Clicked"/>
+            <Button Grid.Row="0" Grid.Column="1" Text="2" Margin="5,5,5,5" Clicked="NumberButton_Clicked"/>
+            <Button Grid.Row="0" Grid.Column="2" Text="3" Margin="5,5,5,5" Clicked="NumberButton_Clicked"/>
+            <Button Grid.Row="0" Grid.Column="3" Text="4" Margin="5,5,5,5" Clicked="NumberButton_Clicked"/>
+            <Button Grid.Row="0" Grid.Column="4" Text="5" Margin="5,5,5,5" Clicked="NumberButton_Clicked"/>
+
+            <Button Grid.Row="1" Grid.Column="0" Text="6" Margin="5,5,5,5" Clicked="NumberButton_Clicked"/>
+            <Button Grid.Row="1" Grid.Column="1" Text="7" Margin="5,5,5,5" Clicked="NumberButton_Clicked"/>
+            <Button Grid.Row="1" Grid.Column="2" Text="8" Margin="5,5,5,5" Clicked="NumberButton_Clicked"/>
+            <Button Grid.Row="1" Grid.Column="3" Text="9" Margin="5,5,5,5" Clicked="NumberButton_Clicked"/>
+
+            <Button x:Name="ButtonClearCell" 
+                    Grid.Row="1" 
+                    Grid.Column="4" 
+                    Text="X" 
+                    Margin="5,5,5,5" 
+                    Clicked="ButtonClearCell_Clicked"/>
+        </Grid>
+
+        <Grid x:Name="GridNavigationButtons"
+              ColumnDefinitions="*,*"
+              RowDefinitions="*,*"
+              Margin="10,0,10,10">
+
+            <Button x:Name="ButtonReset" 
+                    Grid.Column="0"
+                    Grid.Row="0"
+                    Text="Reset"
+                    Margin="5,5,5,5" 
+                    MaximumWidthRequest="150"
+                    Clicked="ButtonReset_clicked" />
+
+            <Button x:Name="ButtonNewGame" 
+                    Grid.Column="1"
+                    Grid.Row="0"
+                    Text="New Game" 
+                    Margin="5,5,5,5" 
+                    MaximumWidthRequest="150"
+                    Clicked="ButtonNewPuzzle_clicked" />
+
+            <!-- Remove this before release! For testing only! -->
+            <Button x:Name="ButtonSolve" 
+                    Grid.ColumnSpan="2"
+                    Grid.Row="1"
+                    Text="Debug Solve" 
+                    Margin="5,5,5,5"
+                    MaximumWidthRequest="150"
+                    Clicked="ButtonSolve_Clicked" />
+        </Grid>
+    </Grid>
 </ContentPage>
