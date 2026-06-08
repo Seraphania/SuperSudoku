@@ -10,8 +10,9 @@ Android API 35+
 To Install on an android device, tap "Releases":
 <img width="304" height="108" alt="image" src="https://github.com/user-attachments/assets/1ba9eec2-92bd-4246-9c42-a074ce5eca44" />
 
-Select the latest release adn tape the *.aab file:
-<img width="884" height="54" alt="image" src="https://github.com/user-attachments/assets/87deed48-7852-44da-afd0-6719a08d4e4a" />
+Select the latest release adn tape the *.PK file:
+<img width="1187" height="49" alt="image" src="https://github.com/user-attachments/assets/424be728-c3b8-4ba9-910c-6f5709a1326a" />
+
 
 Once the file has downloaded to your device it should be installable.
 
