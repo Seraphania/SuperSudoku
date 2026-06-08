@@ -3,24 +3,111 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SuperSudoku.Views.StatisticsView"
              Title="StatisticsView">
-    <VerticalStackLayout>
-        <VerticalStackLayout.GestureRecognizers>
+    <Grid ColumnDefinitions="*, *, *"
+          RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto"
+          RowSpacing="10">
+        
+        <Grid.GestureRecognizers>
             <SwipeGestureRecognizer 
                 Direction="Right" 
 				Swiped="SwipeGestureRecognizer_SwipedRight" />
-        </VerticalStackLayout.GestureRecognizers>
+        </Grid.GestureRecognizers>
 
-        <Label 
-            x:Name="LabelEasySolvedCount" />
-        <Label 
-            x:Name="LabelEasyFastestTime" />
-        <Label 
-            x:Name="LabelMediumSolvedCount" />
-        <Label 
-            x:Name="LabelMediumFastestTime" />
-        <Label 
-            x:Name="LabelHardSolvedCount" />
-        <Label 
-            x:Name="LabelHardFastestTime" />
-    </VerticalStackLayout>
+        <Label Text="Easy"
+               Grid.Row="0"
+               Grid.RowSpan="2"
+               FontSize="Large"
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center"/>
+        <Label Text="Medium"
+               Grid.Row="2"
+               Grid.RowSpan="2"
+               FontSize="Large"
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center"
+               Padding="0,0,0,0"/>
+        <Label Text="Hard"
+               Grid.Row="5"
+               Grid.RowSpan="2"
+               FontSize="Large"
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center"/>
+
+
+        <Label Text="Solved: "
+               TextColor="#95C433"
+               Grid.Row="0"
+               Grid.Column="1" 
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="End"/>
+        <Label Text="Solved: " 
+               TextColor="#95C433"
+               Grid.Row="2"
+               Grid.Column="1" 
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="End"/>
+        <Label Text="Solved: "
+               TextColor="#95C433"
+               Grid.Row="4"
+               Grid.Column="1" 
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="End"/>
+
+        <Label Text="Fastest: "
+               TextColor="#FF914D"
+               Grid.Row="1"
+               Grid.Column="1" 
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="End"/>
+        <Label Text="Fastest: "
+               TextColor="#FF914D"
+               Grid.Row="3"
+               Grid.Column="1" 
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="End"/>
+        <Label Text="Fastest: "
+               TextColor="#FF914D"
+               Grid.Row="5"
+               Grid.Column="1" 
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="End"/>
+
+        <Label x:Name="LabelEasySolvedCount" 
+               TextColor="#95C433"
+               Grid.Row="0"
+               Grid.Column="2" 
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Start"/>
+        <Label x:Name="LabelMediumSolvedCount"
+               TextColor="#95C433"
+               Grid.Row="2"
+               Grid.Column="2" 
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Start"/>
+        <Label x:Name="LabelHardSolvedCount"
+               TextColor="#95C433"
+               Grid.Row="4"
+               Grid.Column="2" 
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Start"/>
+
+        <Label x:Name="LabelEasyFastestTime"
+               TextColor="#FF914D"
+               Grid.Row="1" 
+               Grid.Column="2" 
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Start"/>
+        <Label x:Name="LabelMediumFastestTime"
+               TextColor="#FF914D"
+               Grid.Row="3"
+               Grid.Column="2" 
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Start"/>
+        <Label x:Name="LabelHardFastestTime"
+               TextColor="#FF914D"
+               Grid.Row="5"
+               Grid.Column="2" 
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Start"/>
+    </Grid>
 </ContentPage>

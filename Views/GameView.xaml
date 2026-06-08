@@ -111,7 +111,7 @@
 			  VerticalOptions="Center"
 			  ColumnDefinitions="*,*,*,*,*,*,*,*,*"
 			  RowDefinitions="*,*,*,*,*,*,*,*,*"
-              Margin="0,0,20,20">
+              Margin="10,10,10,10">
 
 			<!-- Sudoku cells -->
 			<Grid x:Name="GridSudoku"

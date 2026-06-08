@@ -26,7 +26,19 @@ namespace SuperSudoku.Services
             }
 		}
 
-		public SettingsService() 
+        public bool DarkMode
+        {
+            get
+            {
+                return Preferences.Get("DarkMode", false);
+            }
+            set
+            {
+                Preferences.Set("DarkMode", value);
+            }
+        }
+
+        public SettingsService() 
 		{
 			_settings = LoadFromDisk() ?? CreateDefaultSettings();
 		}

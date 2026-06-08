@@ -4,12 +4,23 @@
              x:Class="SuperSudoku.Views.SettingsView"
              Title="SettingsView">
     <VerticalStackLayout>
-        <Grid ColumnDefinitions="*, Auto">
+        <Grid ColumnDefinitions="*, Auto"
+              RowDefinitions="*,*">
             <Label Text="Show Timer" 
-                   Grid.Column="0" />
+                   Grid.Column="0" 
+                   Grid.Row="0"/>
             <Switch x:Name="SwitchShowTimer" 
                     Grid.Column="1"
+                    Grid.Row="0"
                     Toggled="SwitchShowTimer_Toggled" />
+            
+            <Label Text="Toggle Dark Mode" 
+                   Grid.Column="0"
+                   Grid.Row="1"/>
+            <Switch x:Name="SwitchDarkMode" 
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    Toggled="SwitchDarkMode_Toggled" />
 
         </Grid>
         <Label Text="Select Difficulty" FontSize="18" />

@@ -18,6 +18,9 @@ namespace SuperSudoku
             PuzzleService = new PuzzleService();
             GameService = new GameService(PuzzleService);
             StatisticsService = new StatisticsService();
+            UserAppTheme =
+                SettingsService.DarkMode ? AppTheme.Dark : AppTheme.Light;
+
 
             _ = PuzzleService.InitialiseAsync();
         }

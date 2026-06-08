@@ -3,18 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SuperSudoku.Views.HelpView"
              Title="Help">
-    <VerticalStackLayout>
+    <VerticalStackLayout
+        VerticalOptions="Center">
         <CarouselView
             x:Name="CarouselViewHelp"
             IndicatorView="IndicatorViewHelp">
             <CarouselView.ItemsSource>
                 <x:Array Type="{x:Type x:String}">
                     <x:String>
-                        Welcome to Super Sudoku! 
-                        A free Sudoku game that makes use of the Dosuku Sudoku API.
-                        
-                        First time playing Sudoku? 
-                        Scroll on for information on how to play...
+                        Welcome to Super Sudoku! A free Sudoku game that makes use of the Dosuku Sudoku API. First time playing Sudoku? Scroll on for information on how to play...
                     </x:String>
                     <x:String>
                         The objective is to fill a 9x9 grid with the digits 1-9.
@@ -33,10 +30,7 @@
                     </x:String>
                     -->
                     <x:String>
-                        Use the settings page to adjust the difficulty level. 
-                        If timers stress you out, you can turn that off! 
-                        
-                        ...Or leave it on if you want to race the clock!
+                        Use the settings page to adjust the difficulty level. If timers stress you out, you can turn that off!  ...Or leave it on if you want to race the clock!
                     </x:String>
                     <x:String>
                         You can visit the stats page to see your best times and how many puzzles you have beaten.
@@ -63,16 +57,29 @@
                 </DataTemplate>
             </CarouselView.ItemTemplate>
         </CarouselView>
-        <IndicatorView x:Name="IndicatorViewHelp" HorizontalOptions="Center" Margin="0,10,0,0" />
+        <IndicatorView x:Name="IndicatorViewHelp" 
+                       HorizontalOptions="Center" 
+                       Margin="0,10,0,150" />
+        
         <Button x:Name="ButtonVisitDosuku"
                 Text="Visit Dosuku"
+                BackgroundColor="#FF914D"
+                Margin="5,5,5,5" 
+                MaximumWidthRequest="150"
                 Clicked="ButtonVisitDosuku_Clicked"/>
         
         <Button x:Name="ButtonVisitGithub" 
                 Text="Visit github"
+                BackgroundColor="#FF914D"
+                Margin="5,5,5,5" 
+                MaximumWidthRequest="150"
                 Clicked="ButtonVisitGithub_Clicked" />
+        
         <Button x:Name="ButtonHome" 
                 Text="Back to Menu" 
+                MaximumWidthRequest="250" 
+                MinimumWidthRequest="250"
+                MinimumHeightRequest="70"
                 HorizontalOptions="Center" 
                 Margin="0,20,0,0" 
                 Clicked="ButtonHome_Clicked" />

@@ -21,21 +21,18 @@ public partial class StatisticsView : ContentPage
         var medium = _app.StatisticsService.GetStatistics(Difficulty.Medium);
         var hard = _app.StatisticsService.GetStatistics(Difficulty.Hard);
 
-        LabelEasySolvedCount.Text = $"Easy Solved: {easy.SolvedCount}";
+        LabelEasySolvedCount.Text = $"{easy.SolvedCount}";
 
-        LabelEasyFastestTime.Text = $"Easy Fastest Time: {
-            easy.FastestTime?.ToString(
+        LabelEasyFastestTime.Text = $"{easy.FastestTime?.ToString(
                 @"mm\:ss") ?? "--:--"}";
 
-        LabelMediumSolvedCount.Text = $"Medium Solved: {medium.SolvedCount}";
+        LabelMediumSolvedCount.Text = $"{medium.SolvedCount}";
 
-        LabelMediumFastestTime.Text = $"Medium Fastest Time: {
-            medium.FastestTime?.ToString(
+        LabelMediumFastestTime.Text = $"{medium.FastestTime?.ToString(
                 @"mm\:ss") ?? "--:--"}";
-        LabelHardSolvedCount.Text = $"Hard Solved: {hard.SolvedCount}";         
+        LabelHardSolvedCount.Text = $"{hard.SolvedCount}";         
 
-        LabelHardFastestTime.Text = $"Hard Fastest Time: {
-            hard.FastestTime?.ToString(
+        LabelHardFastestTime.Text = $"{hard.FastestTime?.ToString(
                 @"mm\:ss") ?? "--:--"}";
     }
 

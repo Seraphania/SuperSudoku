@@ -3,45 +3,41 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SuperSudoku.MainPage">
 
-    <VerticalStackLayout>
-        <Button x:Name="ButtonSettings" 
-                Text="Settings" 
-                Margin="5,5,5,5" 
-                MaximumWidthRequest="150" 
-                Clicked="ButtonSettings_Clicked" />
-
-        <Button x:Name="ButtonHelp" 
-                Text="Help" 
-                Margin="5,5,5,5" 
-                MaximumWidthRequest="150" 
-                Clicked="ButtonHelp_Clicked" />
-
-        <Button x:Name="ButtonStats" 
-                Text="Player Stats" 
-                Margin="5,5,5,5" 
-                MaximumWidthRequest="150" 
-                Clicked="ButtonStats_Clicked" />
-
-        <Button x:Name="ButtonPlay" 
-                Text="Play!" 
-                Margin="5,5,5,5" 
-                MaximumWidthRequest="150" 
-                Clicked="ButtonPlay_Clicked" />
+    <Grid RowDefinitions="*,Auto">
+        <Label Text="SuperSudoku" 
+               HorizontalTextAlignment="Center"
+               FontSize="Large"
+               FontAttributes="Italic" />
         
-        <!-- PlaceHolder for Style Colours 
-		<FlexLayout Direction="Column"
-					AlignItems="Center"
-					JustifyContent="SpaceEvenly">
-            <Label Text="Background: Charcoal" BackgroundColor="#1C2518" />
-            <Label Text="Surface" BackgroundColor="#45693B" />
-            <Label Text="Primary Accent" BackgroundColor="#3C782B" />
-            <Label Text="Secondary Accent" BackgroundColor="#7FC96B" />
-                <Label Text="Highlight" BackgroundColor="#D2ECCB" TextColor="#1C2518" />
-                <Label Text="Text Primary: Warm White" BackgroundColor="#FCFCF5" TextColor="#1C2518" />
-                <Label Text="Text Secondary: Stone Grey" BackgroundColor="#E2E2DC" />
-                <Label Text="Error/Conflict: Muted Terracotta" BackgroundColor="#BB6644" />
-		</FlexLayout> 
-        -->
-    </VerticalStackLayout>
+        <VerticalStackLayout Grid.Row="1">
+            <Button x:Name="ButtonSettings" 
+                    Text="Settings" 
+                    BackgroundColor="#FF914D"
+                    Margin="5,5,5,5" 
+                    MaximumWidthRequest="150" 
+                    Clicked="ButtonSettings_Clicked" />
+
+            <Button x:Name="ButtonHelp" 
+                    Text="Help" 
+                    BackgroundColor="#FF914D"
+                    Margin="5,5,5,5" 
+                    MaximumWidthRequest="150" 
+                    Clicked="ButtonHelp_Clicked" />
+
+            <Button x:Name="ButtonStats" 
+                    Text="Player Stats" 
+                    BackgroundColor="#FF914D"
+                    Margin="5,5,5,5" 
+                    MaximumWidthRequest="150" 
+                    Clicked="ButtonStats_Clicked" />
+
+            <Button x:Name="ButtonPlay" 
+                    Text="Play!" 
+                    Margin="5,5,5,30" 
+                    MaximumWidthRequest="250" 
+                    MinimumHeightRequest="70"
+                    Clicked="ButtonPlay_Clicked" />
+        </VerticalStackLayout>
+    </Grid>
 
 </ContentPage>

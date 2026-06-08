@@ -44,4 +44,10 @@ public partial class SettingsView : ContentPage
     {
         _app.SettingsService.ShowTimer = e.Value;
     }
+
+    private void SwitchDarkMode_Toggled(object sender, ToggledEventArgs e)
+    {
+        _app.UserAppTheme = e.Value ? AppTheme.Dark : AppTheme.Light;
+        _app.SettingsService.DarkMode = e.Value;
+    }
 }
