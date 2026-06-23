@@ -2,7 +2,7 @@
 name: Issue Template
 about: Standard tempalate for reporting bugs and issues
 title: "[BUG/ISSUE]"
-labels: ''
+labels: bug
 assignees: Seraphania
 
 ---
