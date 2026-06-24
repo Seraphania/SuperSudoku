@@ -25,5 +25,5 @@ It is recommended to play only medium and hard puzzles at this stage.
 
 A future release will include full validation of completed puzzles, for now, please make use of the 'Debug Solve' button.
 
-_Suggestions and bug reports welcome, please feel free to raide an issue using GitHub's issue tracker_
+_Suggestions and bug reports welcome, please feel free to raise an issue using GitHub's issue tracker_
 
