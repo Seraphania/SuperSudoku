@@ -1,14 +1,14 @@
 ---
 name: Issue Template
 about: Standard tempalate for reporting bugs and issues
-title: "[BUG/ISSUE]"
+title: "[BUG/ISSUE] <Insert short description here>"
 labels: bug
 assignees: Seraphania
 
 ---
 
 Your issue may already be reported!
-Please search on the [issue tracker](../) before creating one.
+Please search on the [issue tracker](https://github.com/Seraphania/SuperSudoku/issues) before creating one.
 
 ## Expected Behavior
 <!--- If you're describing a bug, tell us what should happen -->
