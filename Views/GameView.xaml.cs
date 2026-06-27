@@ -185,8 +185,19 @@ public partial class GameView : ContentPage
 		{
 			case "Next Puzzle":
 			{
-				_app.GameService.CompletePuzzleAndQueueNext(
-					_app.SettingsService.SelectedDifficulty);
+				bool queuedNextPuzzle = _app.GameService.CompletePuzzleAndQueueNext(
+                        _app.SettingsService.SelectedDifficulty);
+
+                    if (!queuedNextPuzzle)
+                    {
+                        await DisplayAlert("No puzzles are available",
+                                           $"No cached puzzles are available for the {_app.SettingsService.SelectedDifficulty} difficulty, please check internet connection!",
+                                           "OK");
+
+                        await Navigation.PopAsync();
+                        return;
+                    }
+
 
 				var currentPage = this;
 
