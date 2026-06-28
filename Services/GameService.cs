@@ -48,15 +48,23 @@ namespace SuperSudoku.Services
             SaveCurrentGame();
         }
 
-        public Puzzle CompletePuzzleAndQueueNext(Difficulty difficulty)
+        public bool CompletePuzzleAndQueueNext(Difficulty difficulty)
         {
             _activePuzzle.IsCompleted = true;
             _puzzleService.ClearActivePuzzle(difficulty);
-			_activePuzzle =
-				_puzzleService.GetOrCreateActivePuzzle(difficulty);
-            SaveCurrentGame();
-            return _activePuzzle;
-		}
+            try
+            {
+                _activePuzzle =
+                        _puzzleService.GetOrCreateActivePuzzle(difficulty);
+                SaveCurrentGame();
+                return true;
+            }
+            catch (InvalidOperationException)
+            {
+                SaveCurrentGame();
+                return false;
+            }
+        }
 
         public void SaveCurrentGame()
         {
