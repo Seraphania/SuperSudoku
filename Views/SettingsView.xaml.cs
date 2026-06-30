@@ -16,6 +16,8 @@ public partial class SettingsView : ContentPage
 		PickerDifficulty.SelectedIndex = 
 			(int)_app.SettingsService.SelectedDifficulty;
 		SwitchShowTimer.IsToggled = _app.SettingsService.ShowTimer;
+
+		SwitchDarkMode.IsToggled = _app.SettingsService.DarkMode;
     }
 
 	private void UpdatePickerItems()
